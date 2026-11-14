@@ -151,3 +151,17 @@ consent, and third-party services before publishing the notice.
 Recheck service terms and exact dependency versions when each service or library
 is introduced. Account setup and no-card availability are not verified by
 reading a pricing page alone.
+
+## 2026-11-14: Owner-requested portrait direction
+
+Yoge supplied editorial references and portraits and asked for a more premium,
+professional presentation. The Phase 2 homepage now uses his monochrome portrait,
+a neutral off-white canvas, an orange horizontal band, and a warm desk photo with
+the approved About paragraphs. Font B and Hero B remain selected. The new section
+headings and layout are part of this visual revision for owner review.
+
+The supplied references inform composition only; their images and brand assets
+are not used. Original portraits stay local and unchanged; optimized WebP files
+are versioned. Until the full content/contact routes exist, Explore my work opens
+the verified GitHub profile and Say hello leads to the LinkedIn connection section.
+This does not start Phase 3. See reports/DESIGN_REVISION_2026-11-14.md.

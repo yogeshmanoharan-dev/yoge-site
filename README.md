@@ -6,9 +6,10 @@ folded-paper sculpture, a Cloudflare backend, and a private admin dashboard.
 
 ## Current status
 
-**Phase 2 — design system and font specimens, ready for owner review.**
-The responsive hello page uses the Paper & Signal palette, an original SVG paper
-fold, and verified profile links. Astro, strict TypeScript, React integration,
+**Phase 2 — portrait-led design revision, ready for owner review.**
+The responsive homepage uses Yoge's supplied portraits, a neutral off-white
+canvas, an orange editorial band, approved About copy, and verified profile links.
+Astro, strict TypeScript, React integration,
 Cloudflare Workers, separate D1 environments, and CI are configured. The design
 system now includes ten accessible UI components, light/dark themes, self-hosted
 font specimens, and automated contrast checks. Database schema, admin, content

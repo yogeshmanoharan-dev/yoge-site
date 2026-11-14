@@ -1,17 +1,17 @@
 :root {
   color-scheme: light;
-  --paper: #f4eee3;
-  --paper-raised: #fbf8f2;
+  --paper: #f1f0eb;
+  --paper-raised: #faf9f6;
   --ink: #141312;
   --charcoal: #1e1d1c;
   --signal: #ff5a1f;
   --signal-ink: #b83a0b;
   --lavender: #cfc6f2;
   --muted-purple: #6e5fa8;
-  --ink-muted: #5d574f;
-  --rule: #c6bfb3;
-  --paper-fold: #e1d8c8;
-  --paper-shadow: #c8beac;
+  --ink-muted: #5b5a55;
+  --rule: #c8c7c0;
+  --paper-fold: #e1dfd7;
+  --paper-shadow: #c8c5ba;
   --border-strong: #80766a;
   --error: #a52b20;
   --dark-muted: #c6bfb3;

@@ -43,3 +43,6 @@ Desktop.ini
 *.log
 npm-debug.log*
 *.local
+
+# Keep supplied full-resolution portrait sources local; version optimized assets.
+src/assets/portraits/*.png

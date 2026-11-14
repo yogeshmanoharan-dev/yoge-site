@@ -49,10 +49,12 @@ svg {
   color: var(--paper-raised);
   background: var(--ink);
   transform: translateY(-160%);
+  clip-path: inset(50%);
 }
 
 .skip-link:focus {
   transform: translateY(0);
+  clip-path: none;
 }
 
 .page-shell {

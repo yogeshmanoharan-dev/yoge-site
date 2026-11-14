@@ -4,6 +4,7 @@ import { brand } from '../lib/brand';
 
 const github = 'https://github.com/yogeshmanoharan-dev';
 const linkedin = 'https://www.linkedin.com/in/yogesh-manoharan-5512a144b';
+const headlineSentences = brand.heroHeadline.split(/(?<=\.) /);
 ---
 
 <BaseLayout
@@ -20,68 +21,139 @@ const linkedin = 'https://www.linkedin.com/in/yogesh-manoharan-5512a144b';
   />
   <header class="site-header page-shell">
     <a class="wordmark" href="/" aria-label="Yoge home">
-      yoge<span aria-hidden="true">.</span>
+      yoge.
     </a>
-    <p class="header-note">A designer’s eye. An AI creator’s curiosity.</p>
-    <a class="header-link" href={linkedin} rel="me noreferrer">
-      Find me on LinkedIn
-    </a>
+    <p class="header-note">
+      Independent thinking.
+      <br />A designer’s perspective.
+    </p>
+    <nav aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href={github} rel="me noreferrer">
+        GitHub <span aria-hidden="true">↗</span>
+      </a>
+      <a class="header-contact" href="#connect">
+        Say hello <span aria-hidden="true">↗</span>
+      </a>
+    </nav>
   </header>
-
-  <main id="main-content" class="page-shell" tabindex="-1">
-    <section class="hello" aria-labelledby="hello-heading">
+  <main id="main-content" tabindex="-1">
+    <section class="hello page-shell" aria-labelledby="hello-heading">
       <div class="hello-copy">
         <p class="identity">
-          Yogesh Manoharan <span aria-hidden="true">/</span> India
+          Yogesh Manoharan <span>Designer turned AI creator</span>
         </p>
-        <h1 id="hello-heading">{brand.heroHeadline}</h1>
+        <h1 id="hello-heading">
+          {headlineSentences.map((sentence) => (
+            <span>{sentence} </span>
+          ))}
+        </h1>
         <p class="introduction">{brand.heroSubline}</p>
-        <a class="profile-link" href={github} rel="me noreferrer">
-          Follow what I’m building
-          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5"></path>
-          </svg>
+        <div class="hero-actions">
+          <a
+            class="primary-link"
+            href={github}
+            rel="me noreferrer"
+            aria-label="Explore my work on GitHub"
+          >
+            {brand.primaryCta}
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a class="text-link" href="#about">
+            A little about me <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+      <figure class="hero-portrait">
+        <img
+          src="/images/portraits/yoge-monochrome-800.webp"
+          srcset="/images/portraits/yoge-monochrome-480.webp 480w, /images/portraits/yoge-monochrome-800.webp 800w, /images/portraits/yoge-monochrome-1120.webp 1120w"
+          sizes="(max-width: 700px) calc(100vw - 80px), (max-width: 1000px) 40vw, 520px"
+          width="1120"
+          height="1400"
+          alt="Black-and-white portrait of Yogesh Manoharan."
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <figcaption>
+          <span>Yoge</span>
+          <span>Based in India</span>
+        </figcaption>
+      </figure>
+      <div class="signal-band">
+        <p>
+          A designer’s eye.
+          <br />
+          An AI creator’s curiosity.
+        </p>
+        <p class="disciplines">Explain. Test. Build.</p>
+      </div>
+    </section>
+    <section id="about" class="about-section page-shell" aria-labelledby="about-heading">
+      <div class="about-heading">
+        <p class="section-label">A little about me</p>
+        <h2 id="about-heading">
+          Design is where
+          <br />I started.
+          <br />
+          Curiosity keeps
+          <br />
+          me building.
+        </h2>
+      </div>
+      <div class="about-story">
+        {brand.aboutParagraphs.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+        <a class="text-link" href={linkedin} rel="me noreferrer">
+          Find me on LinkedIn <span aria-hidden="true">↗</span>
         </a>
       </div>
-
-      <div class="paper-study" aria-hidden="true">
-        <svg viewBox="0 0 480 540" fill="none" focusable="false">
-          <path d="M60 462h348" stroke="var(--rule)"></path>
-          <path d="M72 454v16m324-16v16" stroke="var(--rule)"></path>
-          <path d="m97 180 211-94 96 210-213 97Z" fill="var(--paper-shadow)" opacity=".26"></path>
-          <path d="m81 162 211-94 96 210-213 97Z" fill="var(--paper-raised)"></path>
-          <path d="m81 162 163 30 48-124Z" fill="var(--paper-fold)"></path>
-          <path d="m244 192 144 86-96-210Z" fill="var(--paper-raised)"></path>
-          <path d="m244 192 144 86-213 97Z" fill="var(--paper-fold)"></path>
-          <path d="m81 162 163 30-69 183Z" fill="var(--paper-raised)"></path>
-          <path d="m244 192 82 49-151 134Z" fill="var(--signal)"></path>
-          <path d="m244 192 22 106-91 77Z" fill="var(--signal-ink)" opacity=".35"></path>
-          <path
-            d="m81 162 163 30 48-124M244 192l-69 183m69-183 144 86"
-            stroke="var(--paper-shadow)"
-            stroke-width=".8"
-          ></path>
-          <path
-            d="M55 139v-18h18m239-80h18v18m85 219h18v18M157 404h-18v-18"
-            stroke="var(--ink-muted)"
-            stroke-width=".8"
-          ></path>
-        </svg>
+      <figure class="work-portrait">
+        <img
+          src="/images/portraits/yoge-at-work-800.webp"
+          srcset="/images/portraits/yoge-at-work-480.webp 480w, /images/portraits/yoge-at-work-800.webp 800w, /images/portraits/yoge-at-work-1120.webp 1024w"
+          sizes="(max-width: 700px) calc(100vw - 48px), (max-width: 1000px) 50vw, 720px"
+          width="1024"
+          height="1536"
+          alt="Yoge working on a laptop at a wooden desk."
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>A designer’s perspective, applied to AI.</figcaption>
+      </figure>
+      <p class="about-note">
+        Clear explainers.
+        <br />
+        Honest tool tests.
+        <br />
+        Practical tutorials.
+      </p>
+    </section>
+    <section id="connect" class="connect-section" aria-labelledby="connect-heading">
+      <div class="page-shell connect-inner">
+        <div>
+          <p class="section-label">Keep in touch</p>
+          <h2 id="connect-heading">Let’s compare notes.</h2>
+        </div>
+        <div class="connect-links">
+          <a href={linkedin} rel="me noreferrer">
+            Say hello on LinkedIn <span aria-hidden="true">↗</span>
+          </a>
+          <a href={github} rel="me noreferrer">
+            Follow along on GitHub <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </section>
   </main>
-
   <footer class="site-footer page-shell">
+    <a class="wordmark" href="#" aria-label="Yoge, back to top">
+      yoge.
+    </a>
     <p>Building with AI. Sharing along the way.</p>
-    <nav aria-label="Social profiles">
-      <a href={github} rel="me noreferrer">
-        GitHub
-      </a>
-      <a href={linkedin} rel="me noreferrer">
-        LinkedIn
-      </a>
-    </nav>
-    <p class="credit">Built by Yoge with AI tools</p>
+    <p>Built by Yoge with AI tools</p>
   </footer>
 </BaseLayout>
 
@@ -89,171 +161,419 @@ const linkedin = 'https://www.linkedin.com/in/yogesh-manoharan-5512a144b';
   .site-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    min-height: 116px;
+    gap: 48px;
+    min-height: 120px;
     border-bottom: 1px solid var(--rule);
   }
-
   .wordmark {
     font-family: var(--font-display);
-    font-size: 40px;
-    font-weight: 700;
+    font-size: 52px;
+    font-weight: 400;
     letter-spacing: -3px;
-    line-height: 1.2;
+    line-height: 1;
     text-decoration: none;
   }
-
-  .header-note,
-  .header-link {
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
   .header-note {
-    margin-inline: auto;
     color: var(--ink-muted);
-  }
-
-  .header-link {
-    padding-block: 14px;
-  }
-
-  .hello {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    align-items: center;
-    min-height: min(760px, calc(100svh - 220px));
-    padding-block: 64px 80px;
-    gap: 16px;
-  }
-
-  .identity {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin: 0 0 24px;
-    color: var(--ink-muted);
-    font-family: var(--font-mono);
     font-size: 12px;
     line-height: 1.6;
   }
-
-  h1 {
-    margin: 0 0 32px -0.06em;
-    font-family: var(--font-display);
-    font-size: clamp(64px, 6.5vw, 104px);
-    font-weight: 400;
-    line-height: 1.02;
-    letter-spacing: -0.035em;
-    text-wrap: balance;
+  .site-header nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-left: auto;
+    font-size: 13px;
   }
-
-  .introduction {
-    max-width: 36ch;
-    margin: 0;
-    color: var(--ink-muted);
-    font-size: clamp(17px, 1.6vw, 20px);
-    line-height: 1.65;
-  }
-
-  .profile-link {
+  .site-header nav a {
     display: inline-flex;
     align-items: center;
-    gap: 26px;
-    min-height: 52px;
-    margin-top: 30px;
-    border-bottom: 1px solid var(--ink);
-    font-size: 14px;
+    gap: 12px;
+    min-height: 44px;
     text-decoration: none;
   }
-
-  .profile-link:hover {
-    border-bottom-width: 2px;
+  .site-header nav a:hover {
+    text-decoration: underline;
   }
-
-  .paper-study {
+  .header-contact {
+    border-bottom: 1px solid var(--ink);
+  }
+  .hello {
+    position: relative;
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 0 40px;
+    padding-top: 56px;
+  }
+  .hello-copy {
+    padding-block: 8px 48px;
+  }
+  .identity {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    margin: 0 0 32px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .identity span {
+    color: var(--ink-muted);
+  }
+  h1 {
+    margin: 0 0 28px -0.035em;
+    font-family: var(--font-display);
+    font-size: clamp(64px, 7.1vw, 104px);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+  h1 span {
+    display: block;
+    text-wrap: balance;
+  }
+  .introduction {
+    max-width: 43ch;
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 16px;
+    line-height: 1.75;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 28px;
+    margin-top: 28px;
+  }
+  .primary-link,
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 48px;
+    font-size: 13px;
+    text-decoration: none;
+  }
+  .primary-link {
+    padding: 8px 20px;
+    background: var(--ink);
+    color: var(--paper-raised);
+    border: 1px solid var(--ink);
+  }
+  .primary-link:hover {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .text-link {
+    text-decoration: underline;
+  }
+  .hero-portrait {
+    position: relative;
+    z-index: 1;
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: stretch;
+    margin: 0 24px 24px 0;
+    background: var(--charcoal);
+    color: var(--paper-raised);
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-portrait img {
+    display: block;
     width: 100%;
-    max-width: 520px;
-    justify-self: end;
-    transform: rotate(-6deg);
+    height: 100%;
+    min-height: 0;
+    flex: 1;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 35%;
   }
-
-  .site-footer {
+  .hero-portrait figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .signal-band {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    min-height: 120px;
+    padding: 24px 32px;
+    background: var(--signal);
+    color: var(--ink);
+  }
+  .signal-band p {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .signal-band .disciplines {
+    font-size: clamp(18px, 2vw, 28px);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+  }
+  .about-section {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 56px 80px;
+    padding-block: 128px;
+    scroll-margin-top: 32px;
+  }
+  .section-label {
+    margin: 0 0 32px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(44px, 4.5vw, 64px);
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+  }
+  .about-story {
+    align-self: center;
+    max-width: 52ch;
+    padding-top: 40px;
+  }
+  .about-story p {
+    margin: 0 0 24px;
+    color: var(--ink-muted);
+    font-size: 17px;
+    line-height: 1.85;
+  }
+  .work-portrait {
+    grid-column: 2;
+    margin: 0;
+  }
+  .work-portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center 42%;
+  }
+  .work-portrait figcaption {
+    margin-top: 16px;
+    color: var(--ink-muted);
+    font-size: 12px;
+  }
+  .about-note {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+    margin: 0 0 32px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .connect-section {
+    color: var(--paper);
+    background: var(--charcoal);
+  }
+  .connect-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 40px;
+    padding-block: 80px;
+  }
+  .connect-inner .section-label {
+    color: var(--dark-muted);
+    margin-bottom: 24px;
+  }
+  .connect-links {
+    width: 300px;
+    flex-shrink: 0;
+  }
+  .connect-links a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-    min-height: 104px;
-    padding-block: 24px;
-    border-top: 1px solid var(--rule);
+    gap: 24px;
+    min-height: 56px;
+    border-bottom: 1px solid var(--border-strong);
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .connect-links a:hover {
+    text-decoration: underline;
+  }
+  .connect-links a:focus-visible {
+    outline-color: var(--signal);
+  }
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    min-height: 140px;
+  }
+  .site-footer p {
     color: var(--ink-muted);
     font-size: 12px;
     line-height: 1.5;
   }
-
-  .site-footer p {
-    margin: 0;
-  }
-
-  .site-footer nav {
-    display: flex;
-    gap: 28px;
-  }
-
-  .site-footer a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    color: var(--ink);
-  }
-
-  @media (min-width: 1600px) {
-    .hello {
-      min-height: 780px;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .site-header {
-      min-height: 92px;
-    }
-
+  @media (max-width: 1000px) {
     .header-note {
       display: none;
     }
-
     .hello {
-      grid-template-columns: 1fr;
-      min-height: auto;
-      padding-block: 48px 24px;
-      gap: 12px;
+      grid-template-columns: 6fr 5fr;
+      gap: 0 24px;
     }
-
     h1 {
-      font-size: clamp(48px, 12vw, 76px);
+      font-size: clamp(58px, 7.5vw, 76px);
     }
-
-    .paper-study {
-      width: min(78%, 340px);
-      margin-top: 10px;
-      margin-right: -5px;
+    .hero-portrait {
+      margin-right: 16px;
+      margin-bottom: 16px;
     }
-
-    .site-footer {
-      gap: 10px 24px;
-      padding-block: 20px;
+    .signal-band {
+      gap: 16px;
+      padding-inline: 24px;
     }
-
-    .credit {
-      flex-basis: 100%;
+    .signal-band > p:first-child {
+      display: none;
+    }
+    .about-section {
+      gap: 40px;
+      padding-block: 96px;
+    }
+    .about-story {
+      padding-top: 0;
+    }
+    .connect-inner {
+      align-items: start;
+    }
+    .connect-links {
+      width: 260px;
     }
   }
-
-  @media (forced-colors: active) {
-    .paper-study {
+  @media (max-width: 700px) {
+    .site-header {
+      min-height: 96px;
+      gap: 16px;
+    }
+    .wordmark {
+      font-size: 44px;
+    }
+    .site-header nav {
+      gap: 20px;
+      font-size: 12px;
+    }
+    .site-header nav > a:nth-child(2) {
       display: none;
+    }
+    .hello {
+      grid-template-columns: 1fr;
+      padding-top: 36px;
+    }
+    .hello-copy {
+      padding-block: 0 36px;
+    }
+    .identity {
+      display: block;
+      margin-bottom: 28px;
+    }
+    .identity span {
+      display: block;
+      margin-top: 4px;
+    }
+    h1 {
+      font-size: clamp(52px, 12.8vw, 80px);
+      margin-bottom: 24px;
+    }
+    .introduction {
+      font-size: 15px;
+    }
+    .hero-actions {
+      gap: 12px 20px;
+      margin-top: 24px;
+    }
+    .hero-portrait {
+      grid-column: 1;
+      grid-row: 2;
+      margin: 0 16px 0;
+    }
+    .hero-portrait img {
+      height: auto;
+      aspect-ratio: 4 / 4.6;
+      max-height: 620px;
+      flex: none;
+    }
+    .hero-portrait figcaption {
+      padding: 16px;
+    }
+    .signal-band {
+      grid-column: 1;
+      grid-row: 2 / 4;
+      align-items: end;
+      margin-top: 50%;
+      padding: 24px 16px;
+    }
+    .signal-band .disciplines {
+      margin-top: 24px;
+      font-size: 25px;
+    }
+    .hello::after {
+      content: '';
+      grid-column: 1;
+      grid-row: 3;
+      height: 80px;
+    }
+    .about-section {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding-block: 72px;
+    }
+    .section-label {
+      margin-bottom: 24px;
+    }
+    h2 {
+      font-size: 48px;
+    }
+    .about-story p {
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    .work-portrait {
+      grid-column: 1;
+    }
+    .work-portrait img {
+      aspect-ratio: 4 / 5;
+      object-position: center 62%;
+    }
+    .about-note {
+      display: none;
+    }
+    .connect-inner {
+      flex-direction: column;
+      padding-block: 56px;
+      gap: 28px;
+    }
+    .connect-links {
+      width: 100%;
+    }
+    .site-footer {
+      flex-wrap: wrap;
+      gap: 8px 20px;
+      padding-block: 32px;
+    }
+    .site-footer .wordmark {
+      flex-basis: 100%;
+      margin-bottom: 16px;
+    }
+    .site-footer p {
+      margin: 0;
     }
   }
 </style>
