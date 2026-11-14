@@ -1,0 +1,26 @@
+---
+import '../../styles/components.css';
+
+interface Props {
+  platform: string;
+  handle: string;
+  href: string;
+}
+const { platform, handle, href } = Astro.props;
+---
+
+<a class="ui-social-tile" href={href} rel="me noreferrer">
+  <span class="ui-social-tile__name">{platform}</span>
+  <span class="ui-social-tile__handle">{handle}</span>
+  <svg
+    class="ui-social-tile__arrow"
+    viewBox="0 0 24 24"
+    width="24"
+    height="24"
+    fill="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d="M6 18 18 6M6 6h12v12" stroke="currentColor" stroke-width="1.5" />
+  </svg>
+</a>

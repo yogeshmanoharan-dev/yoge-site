@@ -1,0 +1,29 @@
+.font-option-a {
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
+}
+.font-option-b {
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Geist', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
+}
+.display-type {
+  font: 400 var(--type-display) / 0.98 var(--font-display);
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.heading-type {
+  font: 400 var(--type-heading) / 1.08 var(--font-display);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.reading-copy {
+  max-width: var(--reading-width);
+  font-size: var(--type-body);
+  line-height: 1.75;
+}
+.mono-label {
+  font: 400 var(--type-label) / 1.6 var(--font-mono);
+}

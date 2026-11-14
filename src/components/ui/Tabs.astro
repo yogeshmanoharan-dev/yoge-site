@@ -1,0 +1,84 @@
+---
+import '../../styles/components.css';
+interface Props {
+  id: string;
+  label: string;
+  items: { id: string; label: string; content?: string }[];
+}
+const { id, label, items } = Astro.props;
+---
+
+<yoge-tabs class="ui-tabs">
+  <nav class="ui-tabs__list" aria-label={label}>
+    {items.map((item) => (
+      <a id={`${id}-tab-${item.id}`} class="ui-tabs__tab" href={`#${id}-panel-${item.id}`}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+  {items.map((item) => (
+    <section
+      id={`${id}-panel-${item.id}`}
+      class="ui-tabs__panel"
+      aria-labelledby={`${id}-tab-${item.id}`}
+    >
+      <slot name={item.id}>{item.content}</slot>
+    </section>
+  ))}
+</yoge-tabs>
+
+<script>
+  class YogeTabs extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      const list = this.querySelector<HTMLElement>('.ui-tabs__list');
+      const tabs = Array.from(this.querySelectorAll<HTMLAnchorElement>('.ui-tabs__tab'));
+      const panels = Array.from(this.querySelectorAll<HTMLElement>('.ui-tabs__panel'));
+      if (!list || !tabs.length || tabs.length !== panels.length) return;
+      this.dataset.ready = 'true';
+      list.setAttribute('role', 'tablist');
+      const select = (index: number, focus = false) => {
+        tabs.forEach((tab, i) => {
+          tab.setAttribute('aria-selected', String(i === index));
+          tab.tabIndex = i === index ? 0 : -1;
+          const panel = panels[i];
+          if (panel) panel.hidden = i !== index;
+        });
+        if (focus) tabs[index]?.focus();
+      };
+      tabs.forEach((tab, index) => {
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('aria-controls', panels[index]!.id);
+        tab.addEventListener('click', (event) => {
+          event.preventDefault();
+          select(index);
+        });
+        tab.addEventListener('keydown', (event) => {
+          const next =
+            event.key === 'ArrowRight'
+              ? (index + 1) % tabs.length
+              : event.key === 'ArrowLeft'
+                ? (index - 1 + tabs.length) % tabs.length
+                : event.key === 'Home'
+                  ? 0
+                  : event.key === 'End'
+                    ? tabs.length - 1
+                    : undefined;
+          if (next !== undefined) {
+            event.preventDefault();
+            select(next, true);
+          }
+          if (event.key === ' ') {
+            event.preventDefault();
+            select(index);
+          }
+        });
+        panels[index]!.setAttribute('role', 'tabpanel');
+        panels[index]!.tabIndex = 0;
+      });
+      const linkedIndex = panels.findIndex((panel) => `#${panel.id}` === location.hash);
+      select(linkedIndex < 0 ? 0 : linkedIndex);
+    }
+  }
+  if (!customElements.get('yoge-tabs')) customElements.define('yoge-tabs', YogeTabs);
+</script>

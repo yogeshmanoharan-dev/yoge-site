@@ -1,0 +1,11 @@
+---
+import '../../styles/components.css';
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<span class:list={['ui-chip', className]}>
+  <slot />
+</span>

@@ -1,0 +1,147 @@
+---
+import '../../styles/components.css';
+interface Props {
+  id: string;
+  title: string;
+  triggerLabel: string;
+}
+const { id, title, triggerLabel } = Astro.props;
+---
+
+<yoge-modal>
+  <button
+    type="button"
+    class="ui-button ui-button--secondary"
+    data-modal-open
+    aria-controls={id}
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    hidden
+  >
+    {triggerLabel}
+  </button>
+  <!-- The open, nonmodal dialog leaves its content readable when JavaScript is unavailable. -->
+  <dialog id={id} open class="ui-modal" aria-labelledby={`${id}-title`}>
+    <div class="ui-modal__heading">
+      <h3 id={`${id}-title`}>{title}</h3>
+      <button
+        type="button"
+        class="ui-button ui-button--quiet"
+        data-modal-close
+        hidden
+        aria-label={`Close ${title}`}
+      >
+        Close
+      </button>
+    </div>
+    <div class="ui-modal__body">
+      <slot />
+    </div>
+  </dialog>
+</yoge-modal>
+
+<script>
+  class YogeModal extends HTMLElement {
+    private listeners?: AbortController;
+
+    connectedCallback() {
+      if (this.listeners) return;
+      const dialog = this.querySelector('dialog');
+      const opener = this.querySelector<HTMLButtonElement>('[data-modal-open]');
+      const closer = this.querySelector<HTMLButtonElement>('[data-modal-close]');
+      if (!dialog || !opener || !closer || typeof dialog.showModal !== 'function') return;
+      this.listeners = new AbortController();
+      const { signal } = this.listeners;
+      this.dataset.ready = 'true';
+      dialog.close();
+      opener.hidden = false;
+      closer.hidden = false;
+      opener.addEventListener(
+        'click',
+        () => {
+          dialog.showModal();
+          opener.setAttribute('aria-expanded', 'true');
+          closer.focus();
+        },
+        { signal },
+      );
+      closer.addEventListener('click', () => dialog.close(), { signal });
+      dialog.addEventListener(
+        'close',
+        () => {
+          const wasOpened = opener.getAttribute('aria-expanded') === 'true';
+          opener.setAttribute('aria-expanded', 'false');
+          if (wasOpened && this.isConnected) opener.focus();
+        },
+        { signal },
+      );
+
+      // Native dialogs can cycle through the document/body at the boundary in
+      // some browsers. Recompute stops on every Tab so slotted fields added,
+      // hidden, or disabled while the dialog is open are handled correctly.
+      document.addEventListener(
+        'keydown',
+        (event) => {
+          if (event.key !== 'Tab' || !dialog.matches(':modal')) return;
+          const active = document.activeElement;
+          if (active && active !== document.body && !dialog.contains(active)) return;
+          const candidates = Array.from(
+            dialog.querySelectorAll<HTMLElement>(
+              'a[href], area[href], button, input, select, textarea, summary, iframe, audio[controls], video[controls], [tabindex], [contenteditable]',
+            ),
+          ).filter((element) => {
+            if (element.matches(':disabled') || element.closest('[hidden], [inert]')) return false;
+            if (element.tabIndex < 0 && !element.isContentEditable) return false;
+            if (element.hasAttribute('tabindex') && element.tabIndex < 0) return false;
+            const style = getComputedStyle(element);
+            return element.getClientRects().length > 0 && style.visibility === 'visible';
+          });
+          const stops = candidates
+            .filter((element) => {
+              if (
+                !(element instanceof HTMLInputElement) ||
+                element.type !== 'radio' ||
+                !element.name
+              ) {
+                return true;
+              }
+              const group = candidates.filter(
+                (candidate): candidate is HTMLInputElement =>
+                  candidate instanceof HTMLInputElement &&
+                  candidate.type === 'radio' &&
+                  candidate.name === element.name &&
+                  candidate.form === element.form,
+              );
+              return element === (group.find((radio) => radio.checked) ?? group[0]);
+            })
+            .sort((first, second) => {
+              const firstOrder = first.tabIndex > 0 ? first.tabIndex : Number.MAX_SAFE_INTEGER;
+              const secondOrder = second.tabIndex > 0 ? second.tabIndex : Number.MAX_SAFE_INTEGER;
+              return firstOrder - secondOrder;
+            });
+          event.preventDefault();
+          if (!stops.length) {
+            closer.focus();
+            return;
+          }
+          const current = stops.findIndex((element) => element === active);
+          const next =
+            current < 0
+              ? event.shiftKey
+                ? stops.length - 1
+                : 0
+              : (current + (event.shiftKey ? -1 : 1) + stops.length) % stops.length;
+          stops[next]?.focus();
+        },
+        { capture: true, signal },
+      );
+    }
+
+    disconnectedCallback() {
+      this.listeners?.abort();
+      this.listeners = undefined;
+      delete this.dataset.ready;
+    }
+  }
+  if (!customElements.get('yoge-modal')) customElements.define('yoge-modal', YogeModal);
+</script>

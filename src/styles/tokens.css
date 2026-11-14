@@ -12,10 +12,49 @@
   --rule: #c6bfb3;
   --paper-fold: #e1d8c8;
   --paper-shadow: #c8beac;
-  /* System fonts keep this first phase lean; font specimens follow in Phase 2. */
+  --border-strong: #80766a;
+  --error: #a52b20;
+  --dark-muted: #c6bfb3;
+  --surface: var(--paper);
+  --surface-raised: var(--paper-raised);
+  --feedback-error: var(--error);
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --focus: var(--signal-ink);
+  /* The public hello page retains its approved fonts until the Phase 2 choice. */
   --font-display: Georgia, 'Times New Roman', serif;
   --font-body: Arial, Helvetica, sans-serif;
   --font-mono: 'Cascadia Mono', Consolas, monospace;
   --content-width: 1280px;
   --gutter: clamp(24px, 5vw, 80px);
+  --reading-width: 68ch;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --radius-small: 4px;
+  --radius-card: 8px;
+  --type-label: 0.75rem;
+  --type-small: 0.875rem;
+  --type-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --type-lead: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  --type-heading: clamp(2rem, 1.3rem + 3vw, 4.5rem);
+  --type-display: clamp(3.5rem, 1.5rem + 7vw, 9rem);
+}
+
+.surface-dark {
+  color-scheme: dark;
+  --surface: var(--charcoal);
+  --surface-raised: var(--charcoal);
+  --feedback-error: #ffad9a;
+  --text: var(--paper);
+  --text-muted: var(--dark-muted);
+  --focus: var(--signal);
+  color: var(--text);
+  background: var(--surface);
 }

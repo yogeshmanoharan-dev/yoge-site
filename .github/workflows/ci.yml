@@ -36,7 +36,9 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run test:deploy
+      - run: npm run test:contrast
       - run: npm run build
+      - run: npm run test:production
       - name: Report production dependency audit
         if: matrix.os == 'ubuntu-latest'
         continue-on-error: true

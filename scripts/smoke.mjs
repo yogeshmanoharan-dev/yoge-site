@@ -21,10 +21,16 @@ assert.match(html, /https:\/\/github\.com\/yogeshmanoharan-dev/);
 assert.equal((html.match(/<h1\b/g) ?? []).length, 1, 'Exactly one main heading.');
 assert.doesNotMatch(html, /TODO\(yoge\)|DEMO —/);
 const css = html.match(/<link[^>]*href="([^"]+\.css)"/);
-assert.ok(css, 'Page must link to its stylesheet.');
-const asset = await fetch(new URL(css[1], url), { signal: AbortSignal.timeout(30_000) });
-assert.equal(asset.status, 200, 'Stylesheet must load.');
-assert.match(asset.headers.get('content-type') ?? '', /text\/css/);
+// Astro can inline a small stylesheet after shared review styles are split out.
+if (css) {
+  const asset = await fetch(new URL(css[1], url), { signal: AbortSignal.timeout(30_000) });
+  assert.equal(asset.status, 200, 'Stylesheet must load.');
+  assert.match(asset.headers.get('content-type') ?? '', /text\/css/);
+} else {
+  const inline = html.match(/<style(?:\s[^>]*)?>[\s\S]+?<\/style>/);
+  assert.ok(inline, 'Page must contain linked or inline CSS.');
+  assert.match(inline[0], /\.hello/, 'Inline CSS must include the hello layout.');
+}
 if (url.protocol === 'https:') {
   assert.doesNotMatch(html, /<script[\s>]/i, 'The deployed hello page needs no client JavaScript.');
 }

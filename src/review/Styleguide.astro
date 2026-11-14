@@ -1,0 +1,334 @@
+---
+import ReviewLayout from './ReviewLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Badge from '../components/ui/Badge.astro';
+import Chip from '../components/ui/Chip.astro';
+import Input from '../components/ui/Input.astro';
+import Textarea from '../components/ui/Textarea.astro';
+import Toast from '../components/ui/Toast.astro';
+import Modal from '../components/ui/Modal.astro';
+import Tabs from '../components/ui/Tabs.astro';
+import SocialTile from '../components/ui/SocialTile.astro';
+const swatches = [
+  ['Paper', 'paper', '#F4EEE3', 'ink'],
+  ['Ink', 'ink', '#141312', 'paper'],
+  ['Signal', 'signal', '#FF5A1F', 'ink'],
+  ['Lavender', 'lavender', '#CFC6F2', 'ink'],
+];
+const statuses = ['idea', 'researching', 'in_development', 'prototype', 'live', 'paused'] as const;
+const tabs = [
+  {
+    id: 'explain',
+    label: 'Explain',
+    content:
+      'AI concepts, explained clearly. The reading experience stays useful with or without motion.',
+  },
+  {
+    id: 'test',
+    label: 'Test',
+    content:
+      'AI tools tested on real tasks. Use a clear label to distinguish a plan from a result.',
+  },
+  {
+    id: 'build',
+    label: 'Build',
+    content:
+      'Building with AI and sharing along the way. Project details will come from published database entries.',
+  },
+];
+// TODO(yoge): All specimens and copy drafts are unpublished review content; excluded from production by route injection.
+---
+
+<ReviewLayout title="Paper & Signal">
+  <section class="review-intro page-shell paper-texture">
+    <p class="mono-label">The design system</p>
+    <h1 class="display-type">
+      Paper.
+      <br />
+      With a signal.
+    </h1>
+    <p>
+      A tactile, editorial foundation for Yoge’s world. Quiet paper, expressive type, and orange
+      with a purpose.
+    </p>
+    <div class="review-type-links">
+      <Button href="/styleguide/type-a">Compare the typefaces</Button>
+      <Button href="#components" variant="secondary">
+        Explore components
+      </Button>
+    </div>
+  </section>
+  <section class="review-section page-shell" id="palette">
+    <div class="section-heading">
+      <h2 class="heading-type">Color with intent.</h2>
+      <p>
+        Ink carries the words. Orange calls attention to one primary action. Lavender gives
+        supporting information a softer surface.
+      </p>
+    </div>
+    <div class="palette">
+      {swatches.map(([name, token, hex, text]) => (
+        <div class="swatch" style={`background:var(--${token});color:var(--${text})`}>
+          <strong>{name}</strong>
+          <code>{hex}</code>
+        </div>
+      ))}
+    </div>
+    <p class="reading-copy" style="margin-top:24px">
+      Orange buttons use ink text. Orange text uses the darker signal-ink shade. Each supported
+      pairing is checked automatically for contrast.
+    </p>
+  </section>
+  <section class="review-section page-shell" id="components">
+    <div class="section-heading">
+      <h2 class="heading-type">
+        Small pieces.
+        <br />A consistent voice.
+      </h2>
+      <p>
+        Real links, native controls, visible keyboard focus. These are component specimens; no
+        messages or preferences are saved.
+      </p>
+    </div>
+    <div class="review-columns">
+      <div class="review-stack">
+        <h3>Buttons & chips</h3>
+        <div class="cluster">
+          <Button href="#fields">Primary action</Button>
+          <Button variant="secondary" href="#statuses">
+            Secondary action
+          </Button>
+          <Button variant="quiet" href="#socials">
+            Text link
+          </Button>
+          <Button disabled>Unavailable</Button>
+        </div>
+        <div class="cluster">
+          <Chip>AI concepts</Chip>
+          <Chip>Tool tests</Chip>
+          <Chip>Practical tutorials</Chip>
+        </div>
+        <Card title="A little texture. A clear hierarchy." heading="h3">
+          <p>
+            Paper cards hold one idea at a time. The torn edge is decorative; the text stays
+            selectable and readable.
+          </p>
+          <span slot="meta" class="mono-label">
+            Card specimen
+          </span>
+          <a slot="footer" href="/styleguide/type-a">
+            View the reading specimen
+          </a>
+        </Card>
+      </div>
+      <div class="review-stack" id="statuses">
+        <h3>Honest status labels</h3>
+        <p>
+          Six distinct states, always written out. These badges are examples of the vocabulary, not
+          published projects.
+        </p>
+        <div class="cluster">
+          {statuses.map((status) => (
+            <Badge status={status} />
+          ))}
+        </div>
+        <h3>Feedback & overlays</h3>
+        <Toast
+          id="light-toast"
+          message="This is a notification preview. Nothing was saved."
+          triggerLabel="Preview a notification"
+        />
+        <Modal id="light-modal" title="A focused conversation" triggerLabel="Open modal specimen">
+          <p>
+            Dialogs keep an action in context. Try Tab, Shift+Tab, and Escape; closing returns focus
+            to the opener.
+          </p>
+        </Modal>
+      </div>
+    </div>
+  </section>
+  <section class="review-section page-shell" id="fields">
+    <div class="section-heading">
+      <h2 class="heading-type">
+        Make it easy
+        <br />
+        to say hello.
+      </h2>
+      <p>
+        Persistent labels, helpful descriptions, and errors alongside the field. This specimen does
+        not submit or store anything.
+      </p>
+    </div>
+    <div class="review-columns">
+      <div class="review-stack">
+        <Input
+          id="specimen-name"
+          name="name"
+          label="Your name"
+          autocomplete="off"
+          hint="Use the name you would like me to call you."
+        />
+        <Input
+          id="specimen-email"
+          name="email"
+          label="Email address"
+          type="email"
+          autocomplete="off"
+          value=""
+          error="Enter an email address in the form name@example.com."
+        />
+      </div>
+      <div class="review-stack">
+        <Textarea
+          id="specimen-message"
+          name="message"
+          label="Your message"
+          hint="A little context helps start a good conversation."
+          rows={4}
+        />
+        <Input
+          id="specimen-disabled"
+          name="disabled"
+          label="Unavailable field"
+          disabled
+          value="Read-only specimen"
+        />
+      </div>
+    </div>
+  </section>
+  <section class="surface-dark dark-section">
+    <div class="page-shell">
+      <div class="section-heading">
+        <h2 class="heading-type">
+          The signal
+          <br />
+          after dark.
+        </h2>
+        <p>
+          Charcoal brings a change of pace. The same component language holds together on both
+          surfaces.
+        </p>
+      </div>
+      <div class="review-columns">
+        <div class="review-stack">
+          <Card title="Room for ideas to take shape." heading="h3">
+            <p>
+              A dark card specimen. Published projects and real resources arrive in later phases.
+            </p>
+            <div slot="meta" class="cluster">
+              <Badge status="researching" />
+              <Chip>Paper & Signal</Chip>
+            </div>
+          </Card>
+          <div class="cluster">
+            <Button href="#socials">Explore social tiles</Button>
+            <Button href="#copy" variant="secondary">
+              Read the copy
+            </Button>
+          </div>
+          <Input
+            id="dark-field"
+            name="dark-field"
+            label="A field on charcoal"
+            hint="Labels and focus stay visible here, too."
+          />
+        </div>
+        <div class="review-stack">
+          <Tabs id="dark-tabs" label="Content pillars" items={tabs} />
+          <Textarea
+            id="dark-message"
+            name="dark-message"
+            label="A message on charcoal"
+            error="This illustrates an inline error."
+            rows={2}
+          />
+          <Modal id="dark-modal" title="A dialog on charcoal" triggerLabel="Open dark modal">
+            <p>The dialog inherits its surrounding theme.</p>
+          </Modal>
+          <Toast
+            id="dark-toast"
+            message="A notification on charcoal. Nothing was saved."
+            triggerLabel="Preview dark notification"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="review-section page-shell" id="socials">
+    <div class="section-heading">
+      <h2 class="heading-type">Find Yoge.</h2>
+      <p>
+        Only the two verified profile URLs are shown. Every tile is an ordinary link, usable without
+        JavaScript.
+      </p>
+    </div>
+    <div class="review-columns">
+      <SocialTile
+        platform="GitHub"
+        handle="yogeshmanoharan-dev"
+        href="https://github.com/yogeshmanoharan-dev"
+      />
+      <SocialTile
+        platform="LinkedIn"
+        handle="Yogesh Manoharan"
+        href="https://www.linkedin.com/in/yogesh-manoharan-5512a144b"
+      />
+    </div>
+  </section>
+  <section class="review-section page-shell">
+    <div class="section-heading">
+      <h2 class="heading-type">Space to breathe.</h2>
+      <p>
+        A 4-pixel spacing rhythm, twelve columns on desktop and four on mobile. Reading lines stay
+        within 68 characters.
+      </p>
+    </div>
+    <div class="layout-grid grid-demo" aria-label="Responsive grid columns">
+      {Array.from({ length: 12 }, (_, i) => (
+        <span>{i + 1}</span>
+      ))}
+    </div>
+  </section>
+  <section class="review-section page-shell" id="copy">
+    <div class="section-heading">
+      <h2 class="heading-type">
+        The words,
+        <br />
+        for your approval.
+      </h2>
+      <p>
+        These are the specification’s drafts. Choosing a typeface does not automatically approve the
+        copy.
+      </p>
+    </div>
+    <div class="review-columns">
+      <div class="review-stack">
+        <h3>Hero A</h3>
+        <p class="heading-type">AI, tested and explained.</p>
+        <h3>Hero B</h3>
+        <p class="heading-type">Building with AI. Sharing what actually works.</p>
+        <p>
+          CTA labels: “Explore my work” and “Say hello”. The brand-statement headline waits until a
+          live AI product is published.
+        </p>
+      </div>
+      <div class="reading-copy flow">
+        <h3>Sub-line & about</h3>
+        <p>
+          Designer turned AI creator. I break down AI concepts, test AI tools on real tasks, and
+          share what I build along the way.
+        </p>
+        <p>
+          I'm Yoge — Yogesh Manoharan, based in India. I started out as a freelance designer on
+          Fiverr and Upwork. Today I create AI content: clear explainers, honest tool tests and
+          practical tutorials. And I build with AI along the way.
+        </p>
+        <p>
+          My design background shapes how I look at AI: who it's for, where the experience breaks,
+          and whether it actually solves a problem.
+        </p>
+      </div>
+    </div>
+  </section>
+</ReviewLayout>

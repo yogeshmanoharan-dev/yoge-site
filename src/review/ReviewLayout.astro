@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/fonts.css';
+import '../styles/typography.css';
+import '../styles/utilities.css';
+import '../styles/components.css';
+import './review.css';
+interface Props {
+  title: string;
+  option?: 'a' | 'b';
+}
+const { title, option = 'a' } = Astro.props;
+---
+
+<BaseLayout
+  title={`${title} — Yoge design review`}
+  description="Paper & Signal design system and font specimens for owner review."
+>
+  <link
+    slot="head"
+    rel="preload"
+    href={`/fonts/${option === 'a' ? 'fraunces' : 'instrument-serif'}-latin.woff2`}
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <div class:list={['review-site', `font-option-${option}`]}>
+    <header class="review-header page-shell">
+      <a class="review-logo" href="/">
+        yoge.
+      </a>
+      <span class="mono-label">Paper & Signal / design review</span>
+      <nav aria-label="Design review">
+        <a
+          href="/styleguide"
+          aria-current={Astro.url.pathname === '/styleguide' ? 'page' : undefined}
+        >
+          Components
+        </a>
+        <a
+          href="/styleguide/type-a"
+          aria-current={Astro.url.pathname.endsWith('type-a') ? 'page' : undefined}
+        >
+          Type A
+        </a>
+        <a
+          href="/styleguide/type-b"
+          aria-current={Astro.url.pathname.endsWith('type-b') ? 'page' : undefined}
+        >
+          Type B
+        </a>
+      </nav>
+    </header>
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="review-footer page-shell">
+      <p>For Yoge’s review. These pages are excluded from production.</p>
+      <a href="/styleguide#copy">Review the draft copy</a>
+    </footer>
+  </div>
+</BaseLayout>

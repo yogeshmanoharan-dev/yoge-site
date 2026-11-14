@@ -1,0 +1,21 @@
+---
+import '../../styles/components.css';
+
+interface Props {
+  status: 'idea' | 'researching' | 'in_development' | 'prototype' | 'live' | 'paused';
+}
+const { status } = Astro.props;
+const labels = {
+  idea: 'Idea',
+  researching: 'Researching',
+  in_development: 'In development',
+  prototype: 'Prototype',
+  live: 'Live',
+  paused: 'Paused',
+};
+---
+
+<span class:list={['ui-badge', `ui-badge--${status}`]}>
+  <span class="ui-badge__mark" aria-hidden="true"></span>
+  {labels[status]}
+</span>

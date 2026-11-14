@@ -1,0 +1,69 @@
+---
+import '../../styles/components.css';
+interface Props {
+  id: string;
+  message: string;
+  triggerLabel?: string;
+}
+const { id, message, triggerLabel } = Astro.props;
+---
+
+<yoge-toast id={id} data-message={message}>
+  {triggerLabel && (
+    <button type="button" class="ui-button ui-button--secondary" data-toast-trigger hidden>
+      {triggerLabel}
+    </button>
+  )}
+  <span class="ui-sr-only" role="status" aria-live="polite" aria-atomic="true"></span>
+  <div class="ui-toast" hidden>
+    <p class="ui-toast__message"></p>
+    <button
+      class="ui-button ui-button--quiet"
+      type="button"
+      data-toast-dismiss
+      aria-label="Dismiss notification"
+    >
+      Dismiss
+    </button>
+  </div>
+</yoge-toast>
+
+<script>
+  class YogeToast extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      const notification = this.querySelector<HTMLElement>('.ui-toast');
+      const message = this.querySelector<HTMLElement>('.ui-toast__message');
+      const announcement = this.querySelector<HTMLElement>('[role="status"]');
+      const trigger = this.querySelector<HTMLButtonElement>('[data-toast-trigger]');
+      const dismiss = this.querySelector<HTMLButtonElement>('[data-toast-dismiss]');
+      if (!notification || !message || !announcement || !dismiss) return;
+      this.dataset.ready = 'true';
+      let returnFocus: HTMLElement | null = null;
+      const show = (text: string) => {
+        returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        notification.hidden = false;
+        message.textContent = text;
+        announcement.textContent = '';
+        requestAnimationFrame(() => {
+          announcement.textContent = text;
+        });
+      };
+      if (trigger) {
+        trigger.hidden = false;
+        trigger.addEventListener('click', () => show(this.dataset.message ?? ''));
+      }
+      this.addEventListener('yoge:toast', (event) => {
+        const detail: unknown = (event as CustomEvent).detail;
+        if (typeof detail === 'string') show(detail);
+      });
+      dismiss.addEventListener('click', () => {
+        notification.hidden = true;
+        message.textContent = '';
+        announcement.textContent = '';
+        (trigger ?? returnFocus)?.focus();
+      });
+    }
+  }
+  if (!customElements.get('yoge-toast')) customElements.define('yoge-toast', YogeToast);
+</script>

@@ -1,0 +1,40 @@
+---
+import '../../styles/components.css';
+
+interface Props {
+  title?: string;
+  heading?: 'h2' | 'h3' | 'h4';
+  href?: string;
+  class?: string;
+}
+const { title, heading: Heading = 'h3', href, class: className } = Astro.props;
+---
+
+<article class:list={['ui-card', className]}>
+  {Astro.slots.has('meta') && (
+    <div class="ui-card__meta">
+      <slot name="meta" />
+    </div>
+  )}
+  {title && <Heading class="ui-card__title">{href ? <a href={href}>{title}</a> : title}</Heading>}
+  <div class="ui-card__body">
+    <slot />
+  </div>
+  {Astro.slots.has('footer') && (
+    <div class="ui-card__footer">
+      <slot name="footer" />
+    </div>
+  )}
+  <svg
+    class="ui-card__edge"
+    viewBox="0 0 600 8"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M0 0H600V4L575 5 540 3 516 6 480 4 455 7 413 4 376 6 351 3 317 5 284 3 250 6 223 4 190 7 153 4 119 6 87 3 51 5 25 3 0 5Z"
+      fill="currentColor"
+    />
+  </svg>
+</article>

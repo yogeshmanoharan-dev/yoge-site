@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import '../../styles/components.css';
+
+interface Props extends HTMLAttributes<'button'> {
+  href?: string;
+  rel?: string;
+  target?: '_blank' | '_self';
+  variant?: 'primary' | 'secondary' | 'quiet';
+}
+
+const {
+  href,
+  variant = 'primary',
+  disabled = false,
+  type = 'button',
+  class: className,
+  ...attributes
+} = Astro.props;
+const classes = ['ui-button', `ui-button--${variant}`, className];
+---
+
+{href ? (
+  disabled ? (
+    <span class:list={classes} aria-disabled="true">
+      <slot />
+    </span>
+  ) : (
+    <a href={href} class:list={classes} {...attributes}>
+      <slot />
+    </a>
+  )
+) : (
+  <button type={type} disabled={disabled} class:list={classes} {...attributes}>
+    <slot />
+  </button>
+)}
