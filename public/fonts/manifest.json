@@ -1,0 +1,37 @@
+[
+  {
+    "family": "Fraunces",
+    "file": "fraunces-latin.woff2",
+    "bytes": 33544,
+    "sha256": "068e2703415ef0843c22d58d4cea3d6ae44beaab2edc948a76ee85e5dca48eca",
+    "source": "https://fonts.gstatic.com/s/fraunces/v38/6NUu8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58njr1Yc7qv8.woff2"
+  },
+  {
+    "family": "Geist",
+    "file": "geist-latin.woff2",
+    "bytes": 29400,
+    "sha256": "19f9c92546aa300c312235e3125af1b81394d8db9a4bc4a425cd5b641d2d54e1",
+    "source": "https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwcGFU.woff2"
+  },
+  {
+    "family": "Instrument Serif",
+    "file": "instrument-serif-latin.woff2",
+    "bytes": 21032,
+    "sha256": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "source": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjg.woff2"
+  },
+  {
+    "family": "Inter",
+    "file": "inter-latin.woff2",
+    "bytes": 48256,
+    "sha256": "3100e775e8616cd2611beecfa23a4263d7037586789b43f035236a2e6fbd4c62",
+    "source": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2"
+  },
+  {
+    "family": "JetBrains Mono",
+    "file": "jetbrains-mono-latin.woff2",
+    "bytes": 40404,
+    "sha256": "18be452724bfdc236c074ca94a249a7f41a86752c7d04ab258ce9ed5651f6a7e",
+    "source": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbV2o-flEEny0FZhsfKu5WU4xD7OwE.woff2"
+  }
+]
