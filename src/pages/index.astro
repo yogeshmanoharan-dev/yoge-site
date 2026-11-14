@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { brand } from '../lib/brand';
 
 const github = 'https://github.com/yogeshmanoharan-dev';
 const linkedin = 'https://www.linkedin.com/in/yogesh-manoharan-5512a144b';
@@ -9,6 +10,14 @@ const linkedin = 'https://www.linkedin.com/in/yogesh-manoharan-5512a144b';
   title="Yoge — Yogesh Manoharan"
   description="Yogesh Manoharan, known as Yoge. Designer turned AI creator, explaining AI concepts, testing tools, and building with AI."
 >
+  <link
+    slot="head"
+    rel="preload"
+    href="/fonts/instrument-serif-latin.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
   <header class="site-header page-shell">
     <a class="wordmark" href="/" aria-label="Yoge home">
       yoge<span aria-hidden="true">.</span>
@@ -25,15 +34,8 @@ const linkedin = 'https://www.linkedin.com/in/yogesh-manoharan-5512a144b';
         <p class="identity">
           Yogesh Manoharan <span aria-hidden="true">/</span> India
         </p>
-        <h1 id="hello-heading">
-          Hello,
-          <br />
-          I’m Yoge.
-        </h1>
-        <p class="introduction">
-          Designer turned AI creator. I explain AI concepts, test tools on real tasks, and share
-          what I build along the way.
-        </p>
+        <h1 id="hello-heading">{brand.heroHeadline}</h1>
+        <p class="introduction">{brand.heroSubline}</p>
         <a class="profile-link" href={github} rel="me noreferrer">
           Follow what I’m building
           <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -140,10 +142,11 @@ const linkedin = 'https://www.linkedin.com/in/yogesh-manoharan-5512a144b';
   h1 {
     margin: 0 0 32px -0.06em;
     font-family: var(--font-display);
-    font-size: clamp(76px, 9.8vw, 144px);
+    font-size: clamp(64px, 6.5vw, 104px);
     font-weight: 400;
-    line-height: 0.96;
-    letter-spacing: -0.065em;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
   }
 
   .introduction {
@@ -229,7 +232,7 @@ const linkedin = 'https://www.linkedin.com/in/yogesh-manoharan-5512a144b';
     }
 
     h1 {
-      font-size: clamp(76px, 16vw, 120px);
+      font-size: clamp(48px, 12vw, 76px);
     }
 
     .paper-study {

@@ -21,10 +21,10 @@
   --text: var(--ink);
   --text-muted: var(--ink-muted);
   --focus: var(--signal-ink);
-  /* The public hello page retains its approved fonts until the Phase 2 choice. */
-  --font-display: Georgia, 'Times New Roman', serif;
-  --font-body: Arial, Helvetica, sans-serif;
-  --font-mono: 'Cascadia Mono', Consolas, monospace;
+  /* Font B selected by Yoge in the Phase 2 review. */
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Geist', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
   --content-width: 1280px;
   --gutter: clamp(24px, 5vw, 80px);
   --reading-width: 68ch;

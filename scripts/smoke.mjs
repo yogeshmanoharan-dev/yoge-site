@@ -16,7 +16,7 @@ assert.equal(response.headers.get('set-cookie'), null, 'The hello page must not 
 const html = await response.text();
 assert.match(html, /Yogesh Manoharan/);
 assert.match(html, /<meta\s+name="robots"\s+content="noindex, nofollow"/);
-assert.match(html, /I’m Yoge\./);
+assert.match(html, /Building with AI\. Sharing what actually works\./);
 assert.match(html, /https:\/\/github\.com\/yogeshmanoharan-dev/);
 assert.equal((html.match(/<h1\b/g) ?? []).length, 1, 'Exactly one main heading.');
 assert.doesNotMatch(html, /TODO\(yoge\)|DEMO —/);

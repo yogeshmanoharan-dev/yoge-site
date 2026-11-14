@@ -5,11 +5,12 @@ import '../styles/typography.css';
 import '../styles/utilities.css';
 import '../styles/components.css';
 import './review.css';
+import { brand } from '../lib/brand';
 interface Props {
   title: string;
   option?: 'a' | 'b';
 }
-const { title, option = 'a' } = Astro.props;
+const { title, option = brand.fontOption } = Astro.props;
 ---
 
 <BaseLayout

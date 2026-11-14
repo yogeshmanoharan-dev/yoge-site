@@ -1,18 +1,19 @@
 ---
 import ReviewLayout from './ReviewLayout.astro';
+import { brand } from '../lib/brand';
 interface Props {
   option: 'a' | 'b';
 }
 const { option } = Astro.props;
 const isA = option === 'a';
-// TODO(yoge): Approve headline, sub-line and about copy before publishing; this file is never routed in production.
+// Owner approved Font B, Hero B, and the remaining copy on 2026-11-14.
 ---
 
 <ReviewLayout title={`Type ${option.toUpperCase()}`} option={option}>
   <section class="specimen-hero page-shell paper-texture">
     <div>
       <span class="mono-label">YOGESH MANOHARAN — YOGE</span>
-      <h1 class="display-type">AI, tested and explained.</h1>
+      <h1 class="display-type">{brand.heroHeadline}</h1>
       <p>
         Designer turned AI creator. I break down AI concepts, test AI tools on real tasks, and share
         what I build along the way.
@@ -25,7 +26,10 @@ const isA = option === 'a';
       </div>
     </div>
     <aside class="specimen-aside">
-      <h2>Type {option.toUpperCase()}</h2>
+      <h2>
+        Type {option.toUpperCase()}
+        {!isA ? ' — selected' : ''}
+      </h2>
       <p>{isA ? 'Fraunces + Inter' : 'Instrument Serif + Geist'}</p>
       <p>
         {isA
@@ -37,7 +41,7 @@ const isA = option === 'a';
   </section>
   <div class="specimen-rule page-shell mono-label">
     <span>Font specimen / same copy, different type</span>
-    <span>Draft copy awaiting approval</span>
+    <span>Hero B selected / copy approved</span>
   </div>
   <section id="about-specimen" class="review-section page-shell review-columns">
     <h2 class="heading-type">
@@ -65,8 +69,8 @@ const isA = option === 'a';
         Sharing what actually works.
       </h2>
       <p class="reading-copy" style="margin-top:24px">
-        Alternative hero headline B. The brand-statement option is reserved until a live AI product
-        is published.
+        Selected hero headline B. The brand-statement option is reserved until a live AI product is
+        published.
       </p>
     </div>
   </section>

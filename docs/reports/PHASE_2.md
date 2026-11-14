@@ -13,7 +13,8 @@ Date: 2026-11-14. Yoge explicitly approved Phase 1.
   Instrument Serif + Geist + JetBrains Mono, 90,836 bytes.
 - Exact §2.3 draft headlines, sub-line, about paragraphs, and CTA labels presented
   for approval. No invented projects, reviews, achievements, or profile URLs.
-- Review pages excluded from production. Existing hello page preserved.
+- Review pages excluded from production. The homepage adopts the owner's selected
+  Font B and Hero B in the selection follow-up.
 - Sources, OFL licenses, SHA-256 hashes, and font choices recorded in FONTS.md.
 
 ## Verification performed
@@ -71,7 +72,33 @@ No production deployment, database schema change, or new application dependency
 was made. The existing development-only dependency advisory from Phase 1 remains
 tracked; unrelated dependencies were not changed.
 
-Choose type A or B (mixing a serif and sans from the candidates is also possible),
-approve or revise headline A/B and the sub-line/about/CTA draft, and approve the
-visual system. Instrument Serif is static 400 upstream, a documented exception
-to the variable-font preference. Phase 3 begins only after this review gate.
+On 2026-11-14, Yoge selected **Font B — Instrument Serif + Geist**, with JetBrains
+Mono for labels, and **Hero B — "Building with AI. Sharing what actually works."**
+Instrument Serif is static 400 upstream, a documented exception to the
+variable-font preference.
+
+Yoge subsequently explicitly approved the §2.3 sub-line, both About paragraphs,
+and CTA labels "Explore my work" and "Say hello". Font and copy approval is
+complete; it should not be requested again. Phase 3 has not started.
+
+## Selection follow-up validation
+
+The selected fonts and hero copy are applied to the homepage and review defaults.
+All approved copy is centralized in `src/lib/brand.ts` for the later pages and
+database seed. The current hello page keeps its working GitHub CTA until the
+approved full-page CTA destinations are implemented.
+
+- `npm run format` passed.
+- `npm run check` passed: 30 files checked, zero errors, warnings, or hints;
+  lint passed; all 4 deployment guard tests and 44 contrast tests passed; build
+  completed.
+- `npm run test:production` passed: production routes and bundles exclude review
+  pages and draft markers.
+- `npm run build:preview` and `npm run deploy:preview` passed. Preview version:
+  `1064c0fd-2c47-4114-9cc3-9f9da1f2abcb`.
+- `npm run smoke -- https://yoge-site-preview.yoge-site.workers.dev` passed:
+  HTML, identity, links, headers, no cookies, and stylesheet.
+- Live homepage inspected at 320, 375, 768, 1280, and 1920 widths without horizontal
+  overflow. The selected Instrument Serif rendered correctly. Desktop and mobile
+  screenshots saved as `.cache/phase-2-selected-desktop.jpg` and
+  `.cache/phase-2-selected-mobile.jpg`.

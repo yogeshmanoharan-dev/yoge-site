@@ -108,8 +108,13 @@ for Phase 0; the Phase 1 manifest will pin a checked local development dependenc
   OFL licenses. A weighs 122,204 bytes and B 90,836 bytes. Instrument Serif is
   static upstream; the other files retain variable weight. Fraunces optical size
   is fixed at 144 and Inter at 14 to keep the font budget. See FONTS.md.
-- No final typeface or copy approval is inferred. The hello page keeps its
-  Phase 1 fonts; comparisons and draft text live only on review routes.
+- Yoge explicitly selected **Font B** on 2026-11-14: Instrument Serif for display,
+  Geist for body/UI, and JetBrains Mono for labels. He also selected **Hero B**:
+  "Building with AI. Sharing what actually works." Apply these choices to the
+  homepage, design system defaults, and later database seed. He subsequently
+  explicitly approved the §2.3 sub-line, both About paragraphs, and CTA labels
+  "Explore my work" and "Say hello". These copy approvals are complete and should
+  not be requested again. Phase 3 has not started.
 - Review source is outside `src/pages` and conditionally injected using Astro's
   [integration API](https://docs.astro.build/en/reference/integrations-reference/).
   Production exclusion is verified in the resolved route list, emitted bundles,

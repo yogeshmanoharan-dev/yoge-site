@@ -20,8 +20,12 @@ This review site is marked `noindex`. Production has not been deployed.
 [Component gallery](https://yoge-site-preview.yoge-site.workers.dev/styleguide) ·
 [Type A: Fraunces + Inter](https://yoge-site-preview.yoge-site.workers.dev/styleguide/type-a) ·
 [Type B: Instrument Serif + Geist](https://yoge-site-preview.yoge-site.workers.dev/styleguide/type-b).
-Review routes are omitted from production builds. Final font and copy choices
-remain pending owner approval; the public hello page retains its approved fonts.
+Review routes are omitted from production builds. On 2026-11-14, Yoge selected
+**Font B: Instrument Serif + Geist**, with JetBrains Mono for labels, and
+**Hero B: "Building with AI. Sharing what actually works."** He also explicitly
+approved the §2.3 sub-line, About text, and CTA labels. The selected fonts and hero
+copy are applied to the preview; all approved copy is stored for later pages and
+the database seed. Phase 3 has not started.
 
 Repository: [yogeshmanoharan-dev/yoge-site](https://github.com/yogeshmanoharan-dev/yoge-site).
 CI runs typechecking, linting, deployment guard tests, and builds on Windows and
