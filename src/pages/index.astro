@@ -1,0 +1,256 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const github = 'https://github.com/yogeshmanoharan-dev';
+const linkedin = 'https://www.linkedin.com/in/yogesh-manoharan-5512a144b';
+---
+
+<BaseLayout
+  title="Yoge — Yogesh Manoharan"
+  description="Yogesh Manoharan, known as Yoge. Designer turned AI creator, explaining AI concepts, testing tools, and building with AI."
+>
+  <header class="site-header page-shell">
+    <a class="wordmark" href="/" aria-label="Yoge home">
+      yoge<span aria-hidden="true">.</span>
+    </a>
+    <p class="header-note">A designer’s eye. An AI creator’s curiosity.</p>
+    <a class="header-link" href={linkedin} rel="me noreferrer">
+      Find me on LinkedIn
+    </a>
+  </header>
+
+  <main id="main-content" class="page-shell" tabindex="-1">
+    <section class="hello" aria-labelledby="hello-heading">
+      <div class="hello-copy">
+        <p class="identity">
+          Yogesh Manoharan <span aria-hidden="true">/</span> India
+        </p>
+        <h1 id="hello-heading">
+          Hello,
+          <br />
+          I’m Yoge.
+        </h1>
+        <p class="introduction">
+          Designer turned AI creator. I explain AI concepts, test tools on real tasks, and share
+          what I build along the way.
+        </p>
+        <a class="profile-link" href={github} rel="me noreferrer">
+          Follow what I’m building
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.5"></path>
+          </svg>
+        </a>
+      </div>
+
+      <div class="paper-study" aria-hidden="true">
+        <svg viewBox="0 0 480 540" fill="none" focusable="false">
+          <path d="M60 462h348" stroke="var(--rule)"></path>
+          <path d="M72 454v16m324-16v16" stroke="var(--rule)"></path>
+          <path d="m97 180 211-94 96 210-213 97Z" fill="var(--paper-shadow)" opacity=".26"></path>
+          <path d="m81 162 211-94 96 210-213 97Z" fill="var(--paper-raised)"></path>
+          <path d="m81 162 163 30 48-124Z" fill="var(--paper-fold)"></path>
+          <path d="m244 192 144 86-96-210Z" fill="var(--paper-raised)"></path>
+          <path d="m244 192 144 86-213 97Z" fill="var(--paper-fold)"></path>
+          <path d="m81 162 163 30-69 183Z" fill="var(--paper-raised)"></path>
+          <path d="m244 192 82 49-151 134Z" fill="var(--signal)"></path>
+          <path d="m244 192 22 106-91 77Z" fill="var(--signal-ink)" opacity=".35"></path>
+          <path
+            d="m81 162 163 30 48-124M244 192l-69 183m69-183 144 86"
+            stroke="var(--paper-shadow)"
+            stroke-width=".8"
+          ></path>
+          <path
+            d="M55 139v-18h18m239-80h18v18m85 219h18v18M157 404h-18v-18"
+            stroke="var(--ink-muted)"
+            stroke-width=".8"
+          ></path>
+        </svg>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer page-shell">
+    <p>Building with AI. Sharing along the way.</p>
+    <nav aria-label="Social profiles">
+      <a href={github} rel="me noreferrer">
+        GitHub
+      </a>
+      <a href={linkedin} rel="me noreferrer">
+        LinkedIn
+      </a>
+    </nav>
+    <p class="credit">Built by Yoge with AI tools</p>
+  </footer>
+</BaseLayout>
+
+<style>
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 116px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -3px;
+    line-height: 1.2;
+    text-decoration: none;
+  }
+
+  .header-note,
+  .header-link {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .header-note {
+    margin-inline: auto;
+    color: var(--ink-muted);
+  }
+
+  .header-link {
+    padding-block: 14px;
+  }
+
+  .hello {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    min-height: min(760px, calc(100svh - 220px));
+    padding-block: 64px 80px;
+    gap: 16px;
+  }
+
+  .identity {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 0 0 24px;
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  h1 {
+    margin: 0 0 32px -0.06em;
+    font-family: var(--font-display);
+    font-size: clamp(76px, 9.8vw, 144px);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.065em;
+  }
+
+  .introduction {
+    max-width: 36ch;
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: clamp(17px, 1.6vw, 20px);
+    line-height: 1.65;
+  }
+
+  .profile-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 26px;
+    min-height: 52px;
+    margin-top: 30px;
+    border-bottom: 1px solid var(--ink);
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  .profile-link:hover {
+    border-bottom-width: 2px;
+  }
+
+  .paper-study {
+    width: 100%;
+    max-width: 520px;
+    justify-self: end;
+    transform: rotate(-6deg);
+  }
+
+  .site-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    min-height: 104px;
+    padding-block: 24px;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-muted);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .site-footer p {
+    margin: 0;
+  }
+
+  .site-footer nav {
+    display: flex;
+    gap: 28px;
+  }
+
+  .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+  }
+
+  @media (min-width: 1600px) {
+    .hello {
+      min-height: 780px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .site-header {
+      min-height: 92px;
+    }
+
+    .header-note {
+      display: none;
+    }
+
+    .hello {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding-block: 48px 24px;
+      gap: 12px;
+    }
+
+    h1 {
+      font-size: clamp(76px, 16vw, 120px);
+    }
+
+    .paper-study {
+      width: min(78%, 340px);
+      margin-top: 10px;
+      margin-right: -5px;
+    }
+
+    .site-footer {
+      gap: 10px 24px;
+      padding-block: 20px;
+    }
+
+    .credit {
+      flex-basis: 100%;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .paper-study {
+      display: none;
+    }
+  }
+</style>

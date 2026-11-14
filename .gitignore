@@ -10,6 +10,7 @@ playwright-report/
 test-results/
 .lighthouseci/
 *.tsbuildinfo
+worker-configuration.d.ts
 
 # Secrets: examples are intentionally safe to commit.
 .env

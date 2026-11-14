@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.astro/
+.cache/
+.tools/
+.wrangler/
+coverage/
+playwright-report/
+test-results/
+worker-configuration.d.ts
+package-lock.json
+# Preserve the supplied specification and its verbatim agent rules.
+docs/BUILD_SPEC.md
+AGENTS.md
+CLAUDE.md

@@ -1,0 +1,51 @@
+{
+  "name": "yoge-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=26.13.1 <27"
+  },
+  "packageManager": "npm@11.20.0",
+  "scripts": {
+    "dev": "node scripts/astro.mjs dev local",
+    "build": "node scripts/astro.mjs build local",
+    "build:preview": "node scripts/astro.mjs build preview",
+    "build:production": "node scripts/astro.mjs build production",
+    "preview": "node scripts/astro.mjs preview local",
+    "typecheck": "wrangler types --env-interface CloudflareBindings && astro check",
+    "lint": "eslint . --max-warnings=0 && prettier --check .",
+    "format": "prettier --write .",
+    "test:deploy": "node --test scripts/deployment-guard.test.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "deploy:preview": "node scripts/deploy.mjs preview",
+    "upload:preview": "node scripts/deploy.mjs preview upload",
+    "deploy:production": "node scripts/deploy.mjs production",
+    "check": "npm run typecheck && npm run lint && npm run test:deploy && npm run build",
+    "cf:login": "wrangler login --device --scopes account:read user:read workers:write workers_scripts:write d1:write",
+    "cf:whoami": "wrangler whoami"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "14.4.8",
+    "@astrojs/react": "7.1.9",
+    "astro": "7.4.12",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.6.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "10.15.0",
+    "eslint-plugin-astro": "3.2.1",
+    "globals": "17.14.0",
+    "prettier": "3.10.1",
+    "prettier-plugin-astro": "1.1.2",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.2",
+    "wrangler": "4.162.0"
+  }
+}

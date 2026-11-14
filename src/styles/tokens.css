@@ -1,0 +1,21 @@
+:root {
+  color-scheme: light;
+  --paper: #f4eee3;
+  --paper-raised: #fbf8f2;
+  --ink: #141312;
+  --charcoal: #1e1d1c;
+  --signal: #ff5a1f;
+  --signal-ink: #b83a0b;
+  --lavender: #cfc6f2;
+  --muted-purple: #6e5fa8;
+  --ink-muted: #5d574f;
+  --rule: #c6bfb3;
+  --paper-fold: #e1d8c8;
+  --paper-shadow: #c8beac;
+  /* System fonts keep this first phase lean; font specimens follow in Phase 2. */
+  --font-display: Georgia, 'Times New Roman', serif;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-mono: 'Cascadia Mono', Consolas, monospace;
+  --content-width: 1280px;
+  --gutter: clamp(24px, 5vw, 80px);
+}
