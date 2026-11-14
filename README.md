@@ -6,10 +6,14 @@ folded-paper sculpture, a Cloudflare backend, and a private admin dashboard.
 
 ## Current status
 
-**Phase 0 — environment and repository setup is in progress.**
+**Phase 0 — environment and repository setup is complete; owner review pending.**
 This repository currently contains the specification, project rules, folder
 structure, and setup documentation. The Astro application starts in Phase 1.
 There is no running website or production deployment yet.
+
+Repository: [yogeshmanoharan-dev/yoge-site](https://github.com/yogeshmanoharan-dev/yoge-site).
+The setup is committed on `main` and pushed to GitHub. Node 26.13.1 LTS and
+Wrangler 4.162.0 have been run successfully in this workspace.
 
 - [Complete build specification](docs/BUILD_SPEC.md)
 - [Agent rules](AGENTS.md)

@@ -2,7 +2,7 @@
 
 Date: 2026-11-14 (Asia/Kolkata).
 
-Status: local preparation verified; initial push and owner review pending.
+Status: Phase 0 setup complete and pushed; owner review pending.
 
 ## Delivered
 
@@ -129,6 +129,12 @@ whitespace check flag its carriage returns. A file-specific `.gitattributes`
 rule marks CR as part of its line endings while retaining whitespace checks.
 The original specification content remains unchanged.
 
+A Node check of authored Markdown links and `.dev.vars.example` values returned:
+
+```text
+PASS: 9 local documentation links resolve; all secret examples are blank.
+```
+
 ## Self-review and remaining verification
 
 - No application dependencies, fictional content, or actual credentials were
@@ -138,7 +144,31 @@ The original specification content remains unchanged.
   deployment belong to later phases and have not been verified.
 - Important spec ambiguities are recorded in `docs/DECISIONS.md`, including
   static pages with live admin edits and missing newsletter confirmation fields.
-- The initial push and final remote commit verification are still pending.
+- The initial commit and push succeeded. The working tree and remote commit
+  will be checked after this closeout report is committed.
+
+## Commit and push
+
+After verification, the following commands succeeded:
+
+```text
+> git commit -m 'chore: initialize personal website specification and repository'
+[main (root-commit) 1e1e1b1] chore: initialize personal website specification and repository
+37 files changed, 1474 insertions(+)
+
+> git push -u origin main
+To https://github.com/yogeshmanoharan-dev/yoge-site.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+```
+
+`git config --local user.name 'Yogesh Manoharan'` and the verified account's
+GitHub noreply email were used for the local commit identity. No private email,
+token, or other credential was embedded in the commit or remote URL.
+
+The README and this report are finalized in a separate conventional
+documentation commit, keeping the original setup commit intact. The final
+chat handoff records its hash and the remote comparison result.
 
 ## Owner review gate
 
