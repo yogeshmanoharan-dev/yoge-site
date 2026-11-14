@@ -183,7 +183,34 @@ For the sole-owner repository, the later production environment should require
 Retain the exact deployment phrase as well as environment approval. Do not enable
 automatic production deployment just by merging application code.
 
-## Before launch
+## Design system review (Phase 2)
+
+Local and preview builds expose `/styleguide`, `/styleguide/type-a`, and
+`/styleguide/type-b`. The source lives in `src/review/` outside automatic page
+routing. `scripts/design-review.mjs` injects it only for local/preview builds.
+
+```powershell
+npm run test:contrast
+npm run test:production
+```
+
+The first command checks actual color tokens and theme aliases. The second builds
+production locally and checks its resolved routes and bundles for review pages or
+draft markers; it never deploys. After that command, rebuild with
+`npm run build:preview` before a preview deployment.
+
+Components live in `src/components/ui/`, with CSS in `src/styles/components.css`.
+Import the component you need. Cards use default, `meta`, and `footer` slots;
+fields require an id, name, and visible label. `.surface-dark` supplies dark theme
+tokens. Modal, Tabs, and Toast provide their own small scripts without React.
+Modal content and tab panels remain in the initial HTML. Toasts are optional
+enhancements and must never be the only place a required error is communicated.
+
+The review pages contain unpublished copy specimens, not working contact forms
+or published projects. Font files, provenance hashes, and OFL licenses are under
+`public/fonts/`; usage and budget details are in `docs/FONTS.md`.
+
+## Before launch (remaining procedures)
 
 The following procedures are planned, not yet implemented or verified:
 

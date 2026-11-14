@@ -96,7 +96,34 @@ for Phase 0; the Phase 1 manifest will pin a checked local development dependenc
   it was not applied automatically. This dependency is not in the deployed Worker.
   Dependabot is enabled. Review a compatible upstream fix before Phase 8 hardening.
 
-## Privacy notice — to be reviewed
+## 2026-11-14 — Phase 2 design system
+
+- Follow the specification's Paper & Signal palette and editorial composition.
+  Add semantic light/dark tokens so components can inherit readable colors.
+  The 44 contrast checks enumerate supported combinations, including control
+  boundaries, focus, errors, badges, and disabled labels; arbitrary color pairs
+  are not claimed to pass AA.
+- Compare Fraunces + Inter with Instrument Serif + Geist. Each specimen uses
+  JetBrains Mono as its third family. All fonts are self-hosted Latin WOFF2 with
+  OFL licenses. A weighs 122,204 bytes and B 90,836 bytes. Instrument Serif is
+  static upstream; the other files retain variable weight. Fraunces optical size
+  is fixed at 144 and Inter at 14 to keep the font budget. See FONTS.md.
+- No final typeface or copy approval is inferred. The hello page keeps its
+  Phase 1 fonts; comparisons and draft text live only on review routes.
+- Review source is outside `src/pages` and conditionally injected using Astro's
+  [integration API](https://docs.astro.build/en/reference/integrations-reference/).
+  Production exclusion is verified in the resolved route list, emitted bundles,
+  and actual local production HTTP responses (404 for all three review routes).
+  Preview remains public/noindex; it contains no private data and is not an admin
+  authentication surface.
+- Modal, toast, and tabs use native HTML plus small custom elements. No new app
+  dependency was added. Modal focus cycling explicitly handles browser boundary
+  behavior observed during keyboard testing. Broader browser/screen-reader audits
+  remain scheduled for hardening.
+- The small original SVG paper texture is below 10 KB. It is decorative and
+  contains no remote resources. Motion-heavy interactions remain in Phase 6/7.
+
+## Privacy notice — to be reviewed before launch
 
 The privacy notice must be reviewed before launch. This project does not claim
 legal compliance. Confirm the actual data flows, deletion address, retention,

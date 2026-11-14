@@ -6,14 +6,22 @@ folded-paper sculpture, a Cloudflare backend, and a private admin dashboard.
 
 ## Current status
 
-**Phase 1 — Astro skeleton and preview deployment, ready for owner review.**
+**Phase 2 — design system and font specimens, ready for owner review.**
 The responsive hello page uses the Paper & Signal palette, an original SVG paper
 fold, and verified profile links. Astro, strict TypeScript, React integration,
-Cloudflare Workers, separate D1 environments, and CI are configured. The full
-design system, database schema, admin, content pages, and 3D arrive in later phases.
+Cloudflare Workers, separate D1 environments, and CI are configured. The design
+system now includes ten accessible UI components, light/dark themes, self-hosted
+font specimens, and automated contrast checks. Database schema, admin, content
+pages, and 3D arrive in later phases.
 
 Preview: [yoge-site-preview.yoge-site.workers.dev](https://yoge-site-preview.yoge-site.workers.dev).
 This review site is marked `noindex`. Production has not been deployed.
+
+[Component gallery](https://yoge-site-preview.yoge-site.workers.dev/styleguide) ·
+[Type A: Fraunces + Inter](https://yoge-site-preview.yoge-site.workers.dev/styleguide/type-a) ·
+[Type B: Instrument Serif + Geist](https://yoge-site-preview.yoge-site.workers.dev/styleguide/type-b).
+Review routes are omitted from production builds. Final font and copy choices
+remain pending owner approval; the public hello page retains its approved fonts.
 
 Repository: [yogeshmanoharan-dev/yoge-site](https://github.com/yogeshmanoharan-dev/yoge-site).
 CI runs typechecking, linting, deployment guard tests, and builds on Windows and
@@ -26,6 +34,8 @@ Linux. See [GitHub Actions](https://github.com/yogeshmanoharan-dev/yoge-site/act
 - [Content guide](docs/CONTENT_GUIDE.md)
 - [Phase 0 verification report](docs/reports/PHASE_0.md)
 - [Phase 1 verification report](docs/reports/PHASE_1.md)
+- [Phase 2 verification report](docs/reports/PHASE_2.md)
+- [Font sources, licenses, and budgets](docs/FONTS.md)
 
 ## Product
 
