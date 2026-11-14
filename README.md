@@ -6,14 +6,18 @@ folded-paper sculpture, a Cloudflare backend, and a private admin dashboard.
 
 ## Current status
 
-**Phase 0 — environment and repository setup is complete; owner review pending.**
-This repository currently contains the specification, project rules, folder
-structure, and setup documentation. The Astro application starts in Phase 1.
-There is no running website or production deployment yet.
+**Phase 1 — Astro skeleton and preview deployment, ready for owner review.**
+The responsive hello page uses the Paper & Signal palette, an original SVG paper
+fold, and verified profile links. Astro, strict TypeScript, React integration,
+Cloudflare Workers, separate D1 environments, and CI are configured. The full
+design system, database schema, admin, content pages, and 3D arrive in later phases.
+
+Preview: [yoge-site-preview.yoge-site.workers.dev](https://yoge-site-preview.yoge-site.workers.dev).
+This review site is marked `noindex`. Production has not been deployed.
 
 Repository: [yogeshmanoharan-dev/yoge-site](https://github.com/yogeshmanoharan-dev/yoge-site).
-The setup is committed on `main` and pushed to GitHub. Node 26.13.1 LTS and
-Wrangler 4.162.0 have been run successfully in this workspace.
+CI runs typechecking, linting, deployment guard tests, and builds on Windows and
+Linux. See [GitHub Actions](https://github.com/yogeshmanoharan-dev/yoge-site/actions/workflows/ci.yml).
 
 - [Complete build specification](docs/BUILD_SPEC.md)
 - [Agent rules](AGENTS.md)
@@ -21,6 +25,7 @@ Wrangler 4.162.0 have been run successfully in this workspace.
 - [Setup and operations guide](docs/RUNBOOK.md)
 - [Content guide](docs/CONTENT_GUIDE.md)
 - [Phase 0 verification report](docs/reports/PHASE_0.md)
+- [Phase 1 verification report](docs/reports/PHASE_1.md)
 
 ## Product
 
@@ -44,8 +49,18 @@ paid assets, paid fonts, and trials are excluded.
 
 Use Windows 11, PowerShell, Git, and Node.js LTS. Follow the environment notes
 in the [runbook](docs/RUNBOOK.md) before installing dependencies. Application
-commands will be documented when implemented in Phase 1; do not assume that
-`npm run dev`, tests, or a build are available at Phase 0.
+commands use the Node version in `.node-version` and work in PowerShell or a
+Unix shell:
+
+```text
+npm ci
+npm run dev
+npm run check
+```
+
+`npm run dev` starts `http://127.0.0.1:4321/` with local bindings. `npm run check`
+runs typechecking, linting, four deployment guard tests, and the local build.
+Deployment commands and environment checks are documented in the runbook.
 
 Read `AGENTS.md` and the entire specification before each phase. Follow:
 plan → implement → test → self-review → report → owner approval.

@@ -28,10 +28,12 @@ for Phase 0; the Phase 1 manifest will pin a checked local development dependenc
 
 ## Questions to resolve in their implementation phases
 
-1. **Admin changes and static pages (Phases 1 and 5).** Prerendered `/about`,
-   `/content`, and shared navigation/footer cannot reflect arbitrary D1 edits
-   within a minute without a rebuild or request-time HTML. Choose an explicit
-   strategy that preserves JS-off content and the promised editing behavior.
+1. **Admin changes and static pages (Phase 5).** The Phase 1 foundation uses
+   `output: 'server'`. Pages whose content is editable in D1 will render on demand
+   so changes can appear without a rebuild and without client JavaScript. MDX
+   articles and other Git-owned content can explicitly prerender. Finalize shared
+   navigation/footer behavior in Phase 5; static HTML cannot reflect D1 edits
+   without rebuilding.
 2. **Newsletter tokens (Phase 3).** The schema in §6 has an unsubscribe token
    hash, but confirmation requires a separate token hash, expiry, and single-use
    consumption state. Add the required fields or a dedicated token table.
@@ -45,16 +47,54 @@ for Phase 0; the Phase 1 manifest will pin a checked local development dependenc
 5. **Resource path overlap (Phases 3 and 5).** Static files and detail pages both
    use `/resources/`. Reserve distinct file paths (for example a file extension
    or an assets subdirectory) so Worker routing cannot shadow a detail page.
-6. **GitHub production approval (Phase 1).** Check whether required reviewers
-   work as intended for the owner who initiates the run; do not create a pipeline
-   that waits for an unavailable second reviewer. Preserve explicit deployment
-   approval and document the chosen mechanism.
+6. **GitHub production approval (before launch).** Required environment reviewers
+   are supported for this public repository. Allow owner self-review so a sole
+   owner can release, while retaining the exact "yes, deploy" gate. Phase 1 tests
+   the local deployment guard; the actual GitHub deployment environment, credentials,
+   PR comments, migrations, and approval rehearsal remain to be configured before
+   launch. The Phase 1 acceptance checks are CI and a live preview hello page.
 7. **Workers Free CPU budget (Phases 3 and 8).** The current limits page lists
    10 ms CPU per request. Measure server rendering, validation, and authentication
    rather than assuming request-count limits alone prove free-tier suitability.
 8. **GSAP licensing (Phase 6).** Verify the current official license and record
    free commercial-use permission before installing. Do not equate free-to-use
    automatically with an OSI-approved open-source license.
+
+## 2026-11-14 — Phase 1 implementation choices
+
+- Pin Astro 7.4.12, Cloudflare adapter 14.4.8, React integration 7.1.9, React/React
+  DOM 19.3.1, and Wrangler 4.162.0 after checking official docs and npm metadata.
+  Direct package versions are exact and the lockfile is committed. Their licenses
+  allow free commercial use (MIT; Wrangler MIT OR Apache-2.0).
+- Use TypeScript 6.0.3 (Apache-2.0), the latest compatible version checked at setup.
+  TypeScript 7.0.2 was available, but the installed Astro checker supports ^5/^6
+  and typescript-eslint requires <6.1. Do not force an unsupported major version.
+- Set the Cloudflare image service to `compile` and disable Astro sessions for
+  now. This avoids automatic Images/KV provisioning. Admin sessions will use D1.
+  No R2, KV, paid Images binding, or Zero Trust service was created.
+- Keep local, preview, and production bindings explicit. The adapter reads
+  `CLOUDFLARE_ENV` at build time. Generated configuration plus a successful-build
+  marker must match the requested target before a deployment can start.
+- Use a dedicated preview Worker and preview D1. Creating the production D1 is
+  authorized setup, not permission to deploy production. All Phase 1 pages are
+  marked noindex in both HTML and response headers.
+- Use a simple server-rendered hello page with CSS tokens and an original SVG
+  fold. System fonts keep Phase 1 independent of the Phase 2 font-selection gate.
+  React is integrated but no island is hydrated on this page.
+- Use Wrangler device authorization after the localhost OAuth callback expired.
+  The owner completed the browser authorization; the CLI reported a successful
+  login. This uses the same limited account/user read, Workers write, and D1 write
+  scope set as the initial request.
+- Phase 1 CI builds on Windows and Linux with official actions pinned to verified
+  commit SHAs. Deployment uses Wrangler locally for this gate; Cloudflare API
+  tokens have not been placed in GitHub. The full §15 deployment automation must
+  be completed and rehearsed before launch.
+- Production dependency audit: zero vulnerabilities. The full development audit
+  reports seven moderate affected packages rooted in one minimatch advisory,
+  [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249), through
+  typescript-eslint. npm's suggested change downgrades the direct tooling package;
+  it was not applied automatically. This dependency is not in the deployed Worker.
+  Dependabot is enabled. Review a compatible upstream fix before Phase 8 hardening.
 
 ## Privacy notice — to be reviewed
 
@@ -71,6 +111,9 @@ consent, and third-party services before publishing the notice.
 - [Workers static asset billing](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/)
 - [D1 limits](https://developers.cloudflare.com/d1/platform/limits/)
 - [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/)
+- [Astro Cloudflare adapter](https://docs.astro.build/en/guides/integrations-guide/cloudflare/)
+- [Astro React integration](https://docs.astro.build/en/guides/integrations-guide/react/)
+- [Cloudflare version URLs](https://developers.cloudflare.com/workers/versions-and-deployments/version-urls/)
 - [GitHub repository security settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository)
 
 Recheck service terms and exact dependency versions when each service or library

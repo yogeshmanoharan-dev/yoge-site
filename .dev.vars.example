@@ -1,4 +1,4 @@
-# Documentation only until the Phase 1/3 runtime configuration is implemented.
+# Names reserved for the Phase 3/4 backend and authentication setup.
 # Copy to .dev.vars when instructed; .dev.vars is ignored by Git.
 # Fill secrets locally or in the appropriate Cloudflare environment, never in chat.
 # Empty values are intentional. There are no working credentials in this file.
@@ -13,7 +13,7 @@ ALERT_EMAIL_TO=
 # Optional: email alerts remain disabled without this key.
 RESEND_API_KEY=
 
-# Public configuration; bind these in the future Wrangler configuration.
+# Public configuration; these are not consumed by the Phase 1 hello page.
 ADMIN_GITHUB_USER_IDS=
 TURNSTILE_SITE_KEY=
 PUBLIC_SITE_URL=http://localhost:4321
