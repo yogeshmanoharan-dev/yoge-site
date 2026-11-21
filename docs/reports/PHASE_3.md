@@ -32,6 +32,19 @@ Astro emitted its Shiki/CSP build warning. The site currently has no syntax-high
 
 Both GitHub Actions jobs, `Check (windows-latest)` and `Check (ubuntu-latest)`, completed successfully for implementation commit `6da47c9cb1ad75c3e707b5611e3b6670408647a8`. Both jobs ran the backend tests and compiled Worker integration checks. Ubuntu ran the production dependency audit. [Implementation CI run](https://github.com/yogeshmanoharan-dev/yoge-site/actions/runs/44925536325).
 
-## Owner acceptance
+## Hosted contact verification
 
-**Pending.** The remaining acceptance check is a real contact submission on the hosted preview and confirmation of its matching row in preview D1. Once the managed widget bindings are saved, submit a synthetic message with a unique subject and verify its status and timestamp using the runbook query. [Preview form](https://yoge-site-preview.yoge-site.workers.dev/styleguide/forms) · [Runbook](../RUNBOOK.md#preview-deployments).
+**Passed on 21 November 2026.** Cloudflare’s managed widget verified the synthetic contact submission automatically. After submission, the preview displayed “Your message has been received.” Email delivery was disabled. [Preview form](https://yoge-site-preview.yoge-site.workers.dev/styleguide/forms).
+
+Running `npx wrangler d1 execute yoge-site-preview --env preview --remote --config wrangler.jsonc` with the following query returned one row.
+
+```sql
+SELECT id, status, created_at FROM messages
+WHERE subject = 'Phase 3 preview acceptance 20261121';
+```
+
+| Message ID                           | Status | Created at (UTC)         |
+| ------------------------------------ | ------ | ------------------------ |
+| f57c8dde-a99d-4d07-bb28-0d89cf61ad5f | new    | 2026-11-21T16:53:37.821Z |
+
+The technical acceptance checks are complete. Phase 4 awaits Yoge’s approval.

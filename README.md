@@ -36,7 +36,7 @@ and builds on Windows and Linux. See [GitHub Actions](https://github.com/yogeshm
 - [Phase 0 verification report](docs/reports/PHASE_0.md)
 - [Phase 1 verification report](docs/reports/PHASE_1.md)
 - [Phase 2 verification report](docs/reports/PHASE_2.md)
-- [Phase 3 verification report and outstanding acceptance check](docs/reports/PHASE_3.md)
+- [Phase 3 verification report and hosted contact test](docs/reports/PHASE_3.md)
 - [Font sources, licenses, and budgets](docs/FONTS.md)
 
 ## Product
