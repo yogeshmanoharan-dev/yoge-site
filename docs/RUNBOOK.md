@@ -1,8 +1,8 @@
 # Setup and operations
 
-Status: Phase 1 application, local database, CI, and preview deployment verified.
-Schema migrations, backups, production deployment, and rollback rehearsals remain
-scheduled for their implementation phases.
+Phase 3 adds the D1 schema, form actions, tracked redirects and scheduled
+retention cleanup. Local and preview have separate databases. Production
+deployment requires the owner's explicit approval at launch.
 
 ## Local environment
 
@@ -66,13 +66,12 @@ not evidence that a repository exists or that a push succeeded.
 
 During Phase 0, the browser showed dependency graph, Dependabot alerts, and
 Dependabot security updates enabled. Secret Protection and push protection
-were already enabled. Monthly version-update configuration will be added when
-the dependency manifest exists in Phase 1. Credit-consuming AI scans are not
-part of this setup.
+were already enabled. Monthly version updates are configured in
+`.github/dependabot.yml`.
 
 ## Secrets and environments
 
-- `.dev.vars.example` contains names and blank values only.
+- `.dev.vars.example` documents the local Turnstile test keys and optional mail settings.
 - Local secrets belong in ignored `.dev.vars`; production secrets belong in
   Cloudflare's secret store. CI deployment credentials belong in GitHub Actions
   secrets. Never put secrets in public client environment variables.
@@ -80,27 +79,41 @@ part of this setup.
 - Database exports belong in `backups/` or `exports/`, both ignored by Git.
 - The private alert inbox must not be used as the public contact email.
 
-## Develop and check
+## Develop, migrate and test locally
 
 ```powershell
 npm ci
+npm run setup:local
+npm run db:migrate:local
+npm run db:seed
 npm run dev
 ```
 
-Open `http://127.0.0.1:4321/`. Stop the server with Ctrl+C. In another terminal:
+The setup script fills missing entries in the ignored `.dev.vars` with a random
+IP hashing key and Cloudflare's published local test keys. The migration command
+uses the local binding. The seed stores ten settings, publishes GitHub and
+LinkedIn, and creates thirteen unpublished profile slots with empty URLs.
+Running the seed again preserves edits and publication status.
+
+Open `http://127.0.0.1:4321/`. Visit `/api/health` for a database readiness
+check and `/styleguide/forms` for the local contact and newsletter forms. Use
+the configured origin including its port when submitting. Stop the server with
+Ctrl+C. Run the following from the project root.
 
 ```powershell
-npm run typecheck
-npm run lint
-npm run test:deploy
-npm run build
-npm run smoke -- http://127.0.0.1:4321
+npm run check
+npm run test:backend
+node tests/integration/backend.mjs
+npm run test:production
 ```
 
-`npm run check` combines the first four commands. `npm run format` formats source
-and documentation but deliberately excludes the original specification and rules.
-Node's built-in test runner checks deployment isolation without adding a test
-framework; application tests are introduced with the backend phases.
+`npm run check` runs the core checks and creates the local Worker build.
+Vitest exercises validators, database constraints and published queries,
+including queries against an isolated D1. The integration script runs the local
+build against a fresh simulated Worker and D1. Run it before
+`npm run test:production`, which replaces the build output. For future schema
+changes, edit `src/db/schema.ts`, run `npm run db:generate`, review the SQL and
+apply it locally. Keep the SQL migration and Drizzle metadata together.
 
 The Cloudflare adapter uses the local Workers runtime. A sandbox that blocks
 child processes or loopback networking can prevent type generation, builds, or
@@ -128,17 +141,37 @@ exist; do not run `d1 create` again:
 | Preview     | `yoge-site-preview` | `8733b468-0277-477c-9991-bb56ca04a01e`                       |
 | Production  | `yoge-site`         | `c085ce13-8452-434f-a330-e28fe04791f3`                       |
 
-Both remote databases were created in APAC. Database IDs are binding identifiers,
-not credentials. The local sentinel cannot identify a remote database. These
-commands only check connectivity; application tables start in Phase 3:
+Both remote databases were created in APAC. The following commands list pending
+migrations for the two Phase 3 targets.
 
 ```powershell
-npx --no-install wrangler d1 execute DB --config wrangler.jsonc --local --command 'SELECT 1 AS connected'
-npx --no-install wrangler d1 execute DB --env preview --remote --command 'SELECT 1 AS connected'
-npx --no-install wrangler d1 execute DB --env production --remote --command 'SELECT 1 AS connected'
+npx --no-install wrangler d1 migrations list yoge-site-local --config wrangler.jsonc --local
+npx --no-install wrangler d1 migrations list yoge-site-preview --config wrangler.jsonc --env preview --remote
 ```
 
 ## Preview deployments
+
+First apply the locally tested migration and run the verified seed against
+preview. Wrangler lists pending SQL files before applying them. Check that
+the displayed database name and ID match the preview row above.
+
+```powershell
+npx --no-install wrangler d1 migrations apply yoge-site-preview --config wrangler.jsonc --env preview --remote
+npm run db:seed -- preview
+```
+
+The first Phase 3 migration executed 35 commands. Preview seeding executed
+twelve statements for the ten settings and the two verified profiles. Admin
+updates and existing rows are preserved on subsequent runs.
+
+Before opening the hosted forms, create a free Managed Turnstile widget for
+`yoge-site-preview.yoge-site.workers.dev` and set its public
+`TURNSTILE_SITE_KEY` on the preview Worker. Set the matching
+`TURNSTILE_SECRET_KEY` and a random `IP_HASH_SECRET` of at least 32 characters
+as preview secrets. Use the Cloudflare dashboard or Wrangler's interactive
+secret prompt. Keep secret values out of Git, chat and shell history. The
+validator accepts the published testing keypair only in the local environment.
+See [Turnstile widget setup](https://developers.cloudflare.com/turnstile/get-started/widget-management/dashboard/).
 
 ```powershell
 npm run build:preview
@@ -152,6 +185,38 @@ The stable review URL is
 After the initial preview Worker exists, `npm run upload:preview` uploads a version
 with its own review URL. It does not change the stable URL's active version.
 Use `npm run deploy:preview` when the stable review URL should be updated.
+
+Check the stable preview after deployment.
+
+1. Open [database health](https://yoge-site-preview.yoge-site.workers.dev/api/health).
+   A ready schema returns HTTP 200 with `ok: true`, the package version and
+   `db: "ok"`. A binding or schema failure returns HTTP 503.
+2. Use the [preview forms](https://yoge-site-preview.yoge-site.workers.dev/styleguide/forms)
+   to submit a uniquely named test message. Use synthetic details, complete
+   Turnstile, and check the success feedback.
+3. Query only that test marker. For example, if you used the subject
+   `Phase 3 owner verification 2026-11-21`, run the following in PowerShell.
+   A single matching result with status `new` confirms the write. Use a fresh
+   marker on the next test.
+
+```powershell
+npx --no-install wrangler d1 execute yoge-site-preview --config wrangler.jsonc --env preview --remote --command "SELECT status,created_at FROM messages WHERE subject='Phase 3 owner verification 2026-11-21'"
+```
+
+The request ID in the `X-Request-Id` header identifies a failed request in
+Worker logs. Contact and newsletter each allow five attempts per hourly window
+per hashed IP. Server-side verification checks the widget response before
+accepting form data. Visitor IP addresses are hashed with a daily key for rate
+limiting. The cleanup trigger runs daily at 03:17 UTC to remove messages older
+than twelve months and expired session and rate-limit records.
+
+With delivery disabled, valid newsletter requests store one pending row per
+normalized email address, and repeat signups receive the same response. For
+future launch with a verified sender domain, configure `EMAIL_FROM`,
+`RESEND_API_KEY`, the Worker setting `NEWSLETTER_EMAILS_ENABLED=true`, and the
+D1 setting `newsletter_emails_enabled` as JSON `true`. Confirmation links
+expire in seven days and are single-use. Unsubscribe links support GET and
+POST. Contact alerts additionally require the owner's private `ALERT_EMAIL_TO`.
 
 Build each environment separately. The adapter selects bindings at build time.
 The deployment wrapper checks the build marker, generated Worker name, APP_ENV,
@@ -175,7 +240,7 @@ The Phase 1 CI workflow checks every main push and pull request. Deployment is
 currently performed through the tested local wrapper with Wrangler OAuth.
 GitHub-hosted deployment credentials, PR preview comments, production environment
 reviewers, and migration steps from spec §15 are not active yet. Complete and
-rehearse those before launch, once the Phase 3 migrations exist. CI does not need
+rehearse those before launch. CI does not need
 Cloudflare credentials to typecheck, lint, test, or build.
 
 For the sole-owner repository, the later production environment should require
@@ -185,8 +250,8 @@ automatic production deployment just by merging application code.
 
 ## Design system review (Phase 2)
 
-Local and preview builds expose `/styleguide`, `/styleguide/type-a`, and
-`/styleguide/type-b`. The source lives in `src/review/` outside automatic page
+Local and preview builds expose `/styleguide`, `/styleguide/type-a`,
+`/styleguide/type-b` and `/styleguide/forms`. The source lives in `src/review/` outside automatic page
 routing. `scripts/design-review.mjs` injects it only for local/preview builds.
 
 ```powershell
@@ -206,19 +271,19 @@ tokens. Modal, Tabs, and Toast provide their own small scripts without React.
 Modal content and tab panels remain in the initial HTML. Toasts are optional
 enhancements and must never be the only place a required error is communicated.
 
-The review pages contain unpublished copy specimens, not working contact forms
-or published projects. Font files, provenance hashes, and OFL licenses are under
+The gallery holds design specimens. The separate form review page calls the
+contact and newsletter backend for the selected environment. Font files,
+provenance hashes, and OFL licenses are under
 `public/fonts/`; usage and budget details are in `docs/FONTS.md`.
 
 ## Before launch (remaining procedures)
 
 The following procedures are planned, not yet implemented or verified:
 
-- D1 migration and local seed commands (Phase 3).
 - Administrative access recovery and session revocation (Phase 4).
 - Monthly D1 export, Time Travel restore, and rollback rehearsal (Phases 8–9).
-- Smoke checks for health, pages, admin guard, and security headers (Phase 8).
-- Daily retention cleanup and its observed logs (Phases 3 and 8).
+- Prelaunch smoke checks across all pages, admin access and security headers (Phase 8).
+- Verify scheduled retention runs in hosted logs (Phase 8).
 - Dependency, link, content, and free-tier usage review (Phase 8).
 
 Fill in exact tested commands, outputs, owners, and service URLs as each

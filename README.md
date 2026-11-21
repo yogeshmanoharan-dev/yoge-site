@@ -6,14 +6,11 @@ folded-paper sculpture, a Cloudflare backend, and a private admin dashboard.
 
 ## Current status
 
-**Phase 2 — portrait-led design revision, ready for owner review.**
-The responsive homepage uses Yoge's supplied portraits, a neutral off-white
-canvas, an orange editorial band, approved About copy, and verified profile links.
-Astro, strict TypeScript, React integration,
-Cloudflare Workers, separate D1 environments, and CI are configured. The design
-system now includes ten accessible UI components, light/dark themes, self-hosted
-font specimens, and automated contrast checks. Database schema, admin, content
-pages, and 3D arrive in later phases.
+**Phase 3 — database and backend.** The preview D1 database has the 14-table
+schema, approved site copy and two verified social profiles. The backend includes
+contact and newsletter actions, indexed queries for published content, a database
+health endpoint, tracked redirects and daily retention cleanup. Newsletter
+signups are stored as pending while email delivery is disabled.
 
 Preview: [yoge-site-preview.yoge-site.workers.dev](https://yoge-site-preview.yoge-site.workers.dev).
 This review site is marked `noindex`. Production has not been deployed.
@@ -25,21 +22,21 @@ Review routes are omitted from production builds. On 2026-11-14, Yoge selected
 **Font B: Instrument Serif + Geist**, with JetBrains Mono for labels, and
 **Hero B: "Building with AI. Sharing what actually works."** He also explicitly
 approved the §2.3 sub-line, About text, and CTA labels. The selected fonts and hero
-copy are applied to the preview; all approved copy is stored for later pages and
-the database seed. Phase 3 has not started.
+copy are applied to the preview and included in the database seed.
 
 Repository: [yogeshmanoharan-dev/yoge-site](https://github.com/yogeshmanoharan-dev/yoge-site).
-CI runs typechecking, linting, deployment guard tests, and builds on Windows and
-Linux. See [GitHub Actions](https://github.com/yogeshmanoharan-dev/yoge-site/actions/workflows/ci.yml).
+CI checks type safety, formatting, contrast, backend behavior, deployment guards,
+and builds on Windows and Linux. See [GitHub Actions](https://github.com/yogeshmanoharan-dev/yoge-site/actions/workflows/ci.yml).
 
 - [Complete build specification](docs/BUILD_SPEC.md)
 - [Agent rules](AGENTS.md)
 - [Decisions and open implementation questions](docs/DECISIONS.md)
-- [Setup and operations guide](docs/RUNBOOK.md)
+- [Setup, migrations, preview checks and operations](docs/RUNBOOK.md)
 - [Content guide](docs/CONTENT_GUIDE.md)
 - [Phase 0 verification report](docs/reports/PHASE_0.md)
 - [Phase 1 verification report](docs/reports/PHASE_1.md)
 - [Phase 2 verification report](docs/reports/PHASE_2.md)
+- [Phase 3 verification report and outstanding acceptance check](docs/reports/PHASE_3.md)
 - [Font sources, licenses, and budgets](docs/FONTS.md)
 
 ## Product
@@ -69,13 +66,15 @@ Unix shell:
 
 ```text
 npm ci
+npm run setup:local
+npm run db:migrate:local
+npm run db:seed
 npm run dev
-npm run check
 ```
 
-`npm run dev` starts `http://127.0.0.1:4321/` with local bindings. `npm run check`
-runs typechecking, linting, four deployment guard tests, and the local build.
-Deployment commands and environment checks are documented in the runbook.
+`npm run dev` starts `http://127.0.0.1:4321/` with local bindings. Visit
+`/api/health` to check database readiness or `/styleguide/forms` to exercise the
+form handlers. See the [runbook](docs/RUNBOOK.md) for test and deployment commands.
 
 Read `AGENTS.md` and the entire specification before each phase. Follow:
 plan → implement → test → self-review → report → owner approval.

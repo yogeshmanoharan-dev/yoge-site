@@ -34,16 +34,15 @@ for Phase 0; the Phase 1 manifest will pin a checked local development dependenc
    articles and other Git-owned content can explicitly prerender. Finalize shared
    navigation/footer behavior in Phase 5; static HTML cannot reflect D1 edits
    without rebuilding.
-2. **Newsletter tokens (Phase 3).** The schema in §6 has an unsubscribe token
-   hash, but confirmation requires a separate token hash, expiry, and single-use
-   consumption state. Add the required fields or a dedicated token table.
+2. **Newsletter tokens (resolved in Phase 3).** Subscribers have separate
+   indexed confirmation and unsubscribe hashes. Consuming a confirmation clears
+   the hash and its expiry in the same conditional update.
 3. **Admin entry points (Phase 4).** `/admin/login` and `/admin/callback` need
    narrowly defined exceptions to the blanket `/admin/**` guard. Keep all data
    routes and mutations protected, and enumerate them in tests.
-4. **Email social links (Phase 3).** `email` is an allowed platform, while the
-   generic URL rule requires HTTPS. Define explicit `mailto:` validation for
-   this platform, or keep it unpublished until a public email is provided.
-   Never expose the private `ALERT_EMAIL_TO` secret as a public contact address.
+4. **Email social links (resolved for Phase 3).** The local seed leaves the
+   email slot unpublished. The public redirect route accepts HTTPS
+   destinations, and the alert inbox stays private.
 5. **Resource path overlap (Phases 3 and 5).** Static files and detail pages both
    use `/resources/`. Reserve distinct file paths (for example a file extension
    or an assets subdirectory) so Worker routing cannot shadow a detail page.
@@ -114,7 +113,7 @@ for Phase 0; the Phase 1 manifest will pin a checked local development dependenc
   homepage, design system defaults, and later database seed. He subsequently
   explicitly approved the §2.3 sub-line, both About paragraphs, and CTA labels
   "Explore my work" and "Say hello". These copy approvals are complete and should
-  not be requested again. Phase 3 has not started.
+  not be requested again.
 - Review source is outside `src/pages` and conditionally injected using Astro's
   [integration API](https://docs.astro.build/en/reference/integrations-reference/).
   Production exclusion is verified in the resolved route list, emitted bundles,
@@ -164,4 +163,28 @@ The supplied references inform composition only; their images and brand assets
 are not used. Original portraits stay local and unchanged; optimized WebP files
 are versioned. Until the full content/contact routes exist, Explore my work opens
 the verified GitHub profile and Say hello leads to the LinkedIn connection section.
-This does not start Phase 3. See reports/DESIGN_REVISION_2026-11-14.md.
+See reports/DESIGN_REVISION_2026-11-14.md for the design review and its checks.
+
+## 2026-11-21 — Phase 3 database and backend
+
+Yoge approved the revised design and requested Phase 3. D1 stores the approved
+copy and verified profiles. Real widget verification is required for hosted
+submissions. The seed leaves newsletter delivery disabled. Scheduled cleanup
+runs at 03:17 UTC. See the [runbook](RUNBOOK.md) for local setup and preview
+verification.
+
+The following direct dependencies are pinned in the manifest and lockfile.
+Release dates come from the npm registry's `time[version]` field. License
+identifiers match the installed package manifests. The publication dates and
+project repositories provide the maintenance checks for this phase.
+
+| Package                                                            | Version | Published  | License    | Use                                         |
+| ------------------------------------------------------------------ | ------- | ---------- | ---------- | ------------------------------------------- |
+| [drizzle-orm](https://www.npmjs.com/package/drizzle-orm/v/0.45.4)  | 0.45.4  | 2026-10-08 | Apache-2.0 | Typed SQLite schemas and D1 queries         |
+| [drizzle-kit](https://www.npmjs.com/package/drizzle-kit/v/0.31.11) | 0.31.11 | 2026-09-21 | MIT        | Generate and check versioned SQL migrations |
+| [zod](https://www.npmjs.com/package/zod/v/4.6.7)                   | 4.6.7   | 2026-10-12 | MIT        | Server input and environment validation     |
+| [vitest](https://www.npmjs.com/package/vitest/v/5.1.1)             | 5.1.1   | 2026-11-18 | MIT        | Unit and local D1 integration tests         |
+
+Wrangler applies the checked-in Drizzle SQL. Production remains gated on
+Yoge's explicit “yes, deploy”. See the [D1 migration reference](https://developers.cloudflare.com/d1/reference/migrations/)
+and [Drizzle D1 guide](https://orm.drizzle.team/docs/get-started/d1-new).
