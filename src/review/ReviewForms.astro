@@ -1,0 +1,138 @@
+---
+import { actions } from 'astro:actions';
+import { env } from 'cloudflare:workers';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { newsletterConsent } from '../lib/validators';
+
+const siteKey = (env as { TURNSTILE_SITE_KEY?: string }).TURNSTILE_SITE_KEY;
+let feedback = '';
+if (Astro.request.method === 'POST') {
+  const input = await Astro.request.formData();
+  const result =
+    input.get('form') === 'contact'
+      ? await Astro.callAction(actions.contact.send, input)
+      : await Astro.callAction(actions.newsletter.subscribe, input);
+  feedback = result.error
+    ? 'Submission could not be accepted. Check the fields and complete verification again.'
+    : result.data.message;
+  Astro.response.status = result.error?.status ?? 200;
+}
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+
+<BaseLayout title="Form review — Yoge" description="Test the preview contact and newsletter forms.">
+  <main class="page-shell" id="main-content" tabindex="-1">
+    <p>
+      <a href="/">Yoge</a>
+    </p>
+    <h1>Form review</h1>
+    {feedback && <p role="status">{feedback}</p>}
+    {siteKey ? (
+      <>
+        <script
+          is:inline
+          async
+          defer
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        ></script>
+        <section>
+          <h2>Contact</h2>
+          <form method="post">
+            <input type="hidden" name="form" value="contact" />
+            <label>
+              Name <input name="name" required maxlength="80" autocomplete="name" />
+            </label>
+            <label>
+              Email <input name="email" type="email" required autocomplete="email" />
+            </label>
+            <label>
+              Subject <input name="subject" required maxlength="120" />
+            </label>
+            <label>
+              Message <textarea name="body" required minlength="10" maxlength="5000"></textarea>
+            </label>
+            <label hidden>
+              Website <input name="website" tabindex="-1" autocomplete="off" />
+            </label>
+            <div class="cf-turnstile" data-sitekey={siteKey} data-action="contact"></div>
+            <button>Send message</button>
+          </form>
+        </section>
+        <section>
+          <h2>Newsletter</h2>
+          <form method="post">
+            <input type="hidden" name="form" value="newsletter" />
+            <label>
+              Email <input name="email" type="email" required autocomplete="email" />
+            </label>
+            <label>
+              <input name="consent" type="checkbox" required /> {newsletterConsent}
+            </label>
+            <label hidden>
+              Website <input name="website" tabindex="-1" autocomplete="off" />
+            </label>
+            <div class="cf-turnstile" data-sitekey={siteKey} data-action="newsletter"></div>
+            <button>Subscribe</button>
+          </form>
+        </section>
+        <noscript>
+          Enable JavaScript to complete Cloudflare verification and submit a form.
+        </noscript>
+      </>
+    ) : (
+      <p>Form verification is being configured.</p>
+    )}
+  </main>
+</BaseLayout>
+<style>
+  main {
+    max-width: 40rem;
+    padding: 3rem 0;
+  }
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+  h1 {
+    font-size: 3.5rem;
+  }
+  section {
+    padding: 1rem 0 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  form {
+    display: grid;
+    gap: 1rem;
+  }
+  label:not([hidden]) {
+    display: block;
+  }
+  input:not([type='checkbox']),
+  textarea {
+    display: block;
+    width: 100%;
+    margin-top: 0.3rem;
+    padding: 0.6rem;
+    border: 1px solid var(--border-strong);
+    background: var(--paper-raised);
+    color: var(--ink);
+    font: inherit;
+  }
+  textarea {
+    min-height: 6rem;
+  }
+  button {
+    justify-self: start;
+    background: var(--ink);
+    color: var(--paper-raised);
+    padding: 0.8rem 1rem;
+    font: inherit;
+  }
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+</style>

@@ -1,22 +1,9 @@
-# Names reserved for the Phase 3/4 backend and authentication setup.
-# Copy to .dev.vars when instructed; .dev.vars is ignored by Git.
-# Fill secrets locally or in the appropriate Cloudflare environment, never in chat.
-# Empty values are intentional. There are no working credentials in this file.
-
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
-SESSION_SECRET=
+# Local development only. Generate IP_HASH_SECRET with npm run setup:local.
+TURNSTILE_SITE_KEY=1x00000000000000000000AA
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
 IP_HASH_SECRET=
-TURNSTILE_SECRET_KEY=
-ALERT_EMAIL_TO=
-
-# Optional: email alerts remain disabled without this key.
+# Optional email delivery
 RESEND_API_KEY=
-
-# Public configuration; these are not consumed by the Phase 1 hello page.
-ADMIN_GITHUB_USER_IDS=
-TURNSTILE_SITE_KEY=
-PUBLIC_SITE_URL=http://localhost:4321
-
-# CF_API_TOKEN and CF_ACCOUNT_ID belong in GitHub Actions secrets for deployment.
-# Never use the production database or production credentials in local tests.
+EMAIL_FROM=
+ALERT_EMAIL_TO=
+NEWSLETTER_EMAILS_ENABLED=false

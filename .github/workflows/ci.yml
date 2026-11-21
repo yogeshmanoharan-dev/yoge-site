@@ -38,6 +38,8 @@ jobs:
       - run: npm run test:deploy
       - run: npm run test:contrast
       - run: npm run build
+      - run: npm run test:backend
+      - run: node tests/integration/backend.mjs
       - run: npm run test:production
       - name: Report production dependency audit
         if: matrix.os == 'ubuntu-latest'

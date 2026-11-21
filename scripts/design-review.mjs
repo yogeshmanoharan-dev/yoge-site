@@ -9,6 +9,7 @@ export default function designReview() {
         if (![undefined, 'preview'].includes(process.env.CLOUDFLARE_ENV)) return;
         for (const [pattern, filename] of [
           ['/styleguide', 'Styleguide.astro'],
+          ['/styleguide/forms', 'ReviewForms.astro'],
           ['/styleguide/type-a', 'TypeA.astro'],
           ['/styleguide/type-b', 'TypeB.astro'],
         ]) {
